@@ -1,10 +1,6 @@
-// likes.js
+import { firebaseConfig } from './firebase.js';
 
-import { firebaseConfig } from './firebase-config.js';
-
-import {
-  initializeApp
-} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
   getFirestore,
@@ -13,113 +9,76 @@ import {
   setDoc,
   updateDoc,
   increment
-} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+// 1. INIT APP
 const app = initializeApp(firebaseConfig);
-
 const db = getFirestore(app);
 
-const heartBtn = document.getElementById('likeButton');
-const countEl = document.getElementById('likeCount');
+// 2. UI ELEMENTS
+const heartBtn = document.getElementById("likeButton");
+const countEl = document.getElementById("likeCount");
 
-const STORAGE_KEY = 'joy-site-liked';
+// 3. DB REFERENCE
+const docRef = doc(db, "site", "likes");
 
-const docRef = doc(db, 'site', 'likes');
+// 4. LOCAL STORAGE (prevent double like)
+const STORAGE_KEY = "liked_site";
 
-const COLORS = [
-  '#2B43FF',
-  '#FF4D6D',
-  '#FFD166',
-  '#06D6A0',
-  '#8338EC',
-  '#FB5607'
-];
+async function init() {
+  const snap = await getDoc(docRef);
 
-async function initializeLikes() {
-
-  const snapshot = await getDoc(docRef);
-
-  if (!snapshot.exists()) {
-    await setDoc(docRef, {
-      count: 0
-    });
-
-    countEl.textContent = '0';
+  if (!snap.exists()) {
+    await setDoc(docRef, { count: 0 });
+    countEl.textContent = 0;
   } else {
-    countEl.textContent = snapshot.data().count;
+    countEl.textContent = snap.data().count;
   }
 
   if (localStorage.getItem(STORAGE_KEY)) {
-    heartBtn.classList.add('liked');
+    heartBtn.classList.add("liked");
   }
-
 }
 
-async function incrementLike() {
-
-  if (localStorage.getItem(STORAGE_KEY)) {
-    return;
-  }
+async function like() {
+  if (localStorage.getItem(STORAGE_KEY)) return;
 
   await updateDoc(docRef, {
     count: increment(1)
   });
 
-  const updated = await getDoc(docRef);
+  const snap = await getDoc(docRef);
+  countEl.textContent = snap.data().count;
 
-  countEl.textContent = updated.data().count;
+  localStorage.setItem(STORAGE_KEY, "true");
 
-  localStorage.setItem(STORAGE_KEY, 'true');
-
-  heartBtn.classList.add('liked');
+  heartBtn.classList.add("liked");
 
   burstParticles();
-
 }
 
+// simple particle effect hook (you already have CSS)
 function burstParticles() {
+  for (let i = 0; i < 15; i++) {
+    const p = document.createElement("span");
+    p.className = "like-particle";
 
-  const rect = heartBtn.getBoundingClientRect();
+    const colors = ["#2B43FF","#FF4D6D","#FFD166","#06D6A0","#8338EC"];
 
-  for (let i = 0; i < 18; i++) {
+    p.style.background =
+      colors[Math.floor(Math.random() * colors.length)];
 
-    const particle = document.createElement('span');
+    p.style.left = window.innerWidth / 2 + "px";
+    p.style.top = window.innerHeight / 2 + "px";
 
-    particle.className = 'like-particle';
+    document.body.appendChild(p);
 
-    particle.style.left =
-      rect.left + rect.width / 2 + 'px';
-
-    particle.style.top =
-      rect.top + rect.height / 2 + 'px';
-
-    particle.style.background =
-      COLORS[Math.floor(Math.random() * COLORS.length)];
-
-    const angle = Math.random() * Math.PI * 2;
-
-    const distance = 50 + Math.random() * 50;
-
-    particle.style.setProperty(
-      '--x',
-      `${Math.cos(angle) * distance}px`
-    );
-
-    particle.style.setProperty(
-      '--y',
-      `${Math.sin(angle) * distance}px`
-    );
-
-    document.body.appendChild(particle);
-
-    setTimeout(() => {
-      particle.remove();
-    }, 1000);
-
+    setTimeout(() => p.remove(), 1000);
   }
-
 }
 
-heartBtn?.addEventListener('click', incrementLike);
+// EVENTS
+heartBtn?.addEventListener("click", like);
 
-initializeLikes();
+// INIT
+init();
