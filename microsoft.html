@@ -719,7 +719,7 @@
     <h2 style="font-size:32px;font-weight:500;line-height:1.15;letter-spacing:-0.025em;margin-bottom:20px;">This isn't a <span style="font-family:'Instrument Serif',serif;font-style:italic;color:#2B43FF;">copy-paste</span> case study.</h2>
     <p style="font-size:15px;line-height:1.65;color:#444;margin-bottom:14px;">It's a real project, with real insights, real trade-offs, and a real reframe that took me weeks to see.</p>
     <p style="font-size:15px;line-height:1.65;color:#444;margin-bottom:28px;">If you're here to skim, this won't land. If you're serious about understanding how I think — you'll need the password.</p>
-    <form id="passForm" style="display:flex;gap:8px;margin-bottom:14px;">
+    <form id="passForm" class="passForm" style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
       <input id="passInput" type="password" placeholder="Enter password" autocomplete="off" style="flex:1;padding:14px 16px;border:1px solid rgba(10,10,10,0.15);border-radius:10px;font-size:15px;font-family:inherit;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='#2B43FF'" onblur="this.style.borderColor='rgba(10,10,10,0.15)'" />
       <button type="submit" style="padding:14px 22px;background:#0A0A0A;color:#FFFFFF;border:none;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;transition:background 0.2s;" onmouseover="this.style.background='#2B43FF'" onmouseout="this.style.background='#0A0A0A'">Unlock →</button>
     </form>
@@ -727,7 +727,7 @@
     <p style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#888;line-height:1.6;">[ Call Joy · +91-96234 65096 ]</p>
   </div>
 </div>
-<style>body.locked{overflow:hidden;}body.locked .line-cursor{display:none!important;}</style>
+<style> body.locked{overflow:hidden;} body.locked .line-cursor{display:none!important;} @media (max-width: 540px) {   .passForm { flex-direction: column; }   .passForm input, .passForm button { width: 100%; }   .passForm button { padding: 16px !important; } } </style>
 <div class="line-cursor" id="lineCursor"></div>
 
 <!-- NAV — exact match to index.html, with roll-up text + hamburger -->
