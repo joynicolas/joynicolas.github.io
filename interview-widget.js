@@ -26,8 +26,7 @@
   const INTERVIEW_QUESTIONS = [
     {
       q: 'Tell me about yourself',
-      a: "I'm Joy Nicolas, a product designer based in Pune with 12+ years across enterprise SaaS, design systems, and AI-driven interfaces.\n\nI've shipped UX for Microsoft's Data & AI demos at Xoriant, contributed to the shared design system at Thinkproject, and most recently used AI as a coding partner to take two side projects from blank page to deployed in under seven hours each.\n\nWhat I'm best at is spotting the second-order problem in a product — the one nobody's named yet — and building the system that fixes it.",
-      //video: 'dQw4w9WgXcQ'
+      a: "I'm Joy Nicolas, a product designer based in Pune with 12+ years across enterprise SaaS, design systems, and AI-driven interfaces.\n\nI've shipped UX for Microsoft's Data & AI demos at Xoriant, contributed to the shared design system at Thinkproject, and most recently used AI as a coding partner to take two side projects from blank page to deployed in under seven hours each.\n\nWhat I'm best at is spotting the second-order problem in a product — the one nobody's named yet — and building the system that fixes it."
     },
     {
       q: 'Why should we hire you?',
@@ -236,32 +235,115 @@
     panel.appendChild(body);
     panel.appendChild(footer);
 
+    // ---- Glow ring (sibling, sits behind panel) ----
+    const glow = el('div', { class: 'iw-glow iw-glow-idle', 'aria-hidden': 'true' });
+
     root.appendChild(launcher);
+    root.appendChild(glow);
     root.appendChild(panel);
 
-    return { root, launcher, panel, body };
+    return { root, launcher, panel, body, glow };
   };
 
   /* ---------- STATE + BEHAVIOR ---------- */
   const initWidget = () => {
-    const { root, launcher, panel, body } = buildWidget();
+    const { root, launcher, panel, body, glow } = buildWidget();
     document.body.appendChild(root);
 
     let isOpen = true;       // Open by default per spec
     let isMinimized = false;
     let openIndex = -1;
 
+    /* ---------- GLOW TRACKING ----------
+       The glow ring shows a narrow colored arc. Behavior:
+       - Idle (cursor far from panel): CSS animation slowly rotates the arc.
+       - Active (cursor near): JS sets --iw-glow-angle to match cursor's angle
+         relative to the panel's center, so the arc "points at" the cursor.
+       Threshold uses panel diagonal as a soft proximity zone.                  */
+    const NEAR_THRESHOLD = 220; // px from panel edge to start tracking cursor
+    let glowState = 'idle';     // 'idle' | 'near'
+    let pendingFrame = false;
+    let lastMouse = { x: -9999, y: -9999 };
+
+    // Sync glow height/visibility with panel state
+    const syncGlow = () => {
+      if (!isOpen || isMinimized) {
+        glow.classList.add('iw-glow-off');
+        glow.classList.remove('iw-glow-on');
+        return;
+      }
+      glow.classList.remove('iw-glow-off');
+      glow.classList.add('iw-glow-on');
+      // Match panel height so the ring sits flush around it
+      const rect = panel.getBoundingClientRect();
+      glow.style.height = rect.height + 'px';
+    };
+
+    // Compute angle from panel center to cursor; update CSS variable
+    const updateGlowAngle = () => {
+      pendingFrame = false;
+      if (!isOpen || isMinimized) return;
+
+      const rect = panel.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = lastMouse.x - cx;
+      const dy = lastMouse.y - cy;
+
+      // Distance from cursor to nearest panel edge (rough: shrink rect by half its size)
+      const edgeDistX = Math.max(0, Math.abs(dx) - rect.width / 2);
+      const edgeDistY = Math.max(0, Math.abs(dy) - rect.height / 2);
+      const edgeDist = Math.hypot(edgeDistX, edgeDistY);
+
+      if (edgeDist > NEAR_THRESHOLD) {
+        // Cursor is far — return to idle rotation
+        if (glowState !== 'idle') {
+          glow.classList.add('iw-glow-idle');
+          glowState = 'idle';
+        }
+        return;
+      }
+
+      // Cursor is near — drive angle from cursor position
+      if (glowState !== 'near') {
+        glow.classList.remove('iw-glow-idle');
+        glowState = 'near';
+      }
+      // atan2 returns angle in radians from positive x-axis (right = 0, down = 90°).
+      // The conic-gradient `from` value treats 0deg as pointing UP, so we add 90°
+      // to align cursor direction with the colored arc.
+      const angleRad = Math.atan2(dy, dx);
+      const angleDeg = (angleRad * 180) / Math.PI + 90;
+      glow.style.setProperty('--iw-glow-angle', angleDeg + 'deg');
+    };
+
+    // Throttled mousemove
+    window.addEventListener('mousemove', (e) => {
+      lastMouse.x = e.clientX;
+      lastMouse.y = e.clientY;
+      if (!pendingFrame) {
+        pendingFrame = true;
+        requestAnimationFrame(updateGlowAngle);
+      }
+    }, { passive: true });
+
+    // Recalculate on resize / scroll (panel position can shift)
+    window.addEventListener('resize', syncGlow, { passive: true });
+
     const showPanel = () => {
       panel.classList.remove('iw-hidden', 'iw-minimized');
       launcher.classList.remove('iw-visible');
       isOpen = true;
       isMinimized = false;
+      // Delay slightly so the panel has its real dimensions
+      setTimeout(syncGlow, 50);
     };
 
     const hidePanel = () => {
       panel.classList.add('iw-hidden');
       launcher.classList.add('iw-visible');
       isOpen = false;
+      syncGlow();
       // Tear down any open video to free resources
       if (openIndex >= 0) collapseItem(openIndex);
     };
@@ -271,6 +353,7 @@
       panel.classList.toggle('iw-minimized');
       isMinimized = panel.classList.contains('iw-minimized');
       if (isMinimized && openIndex >= 0) collapseItem(openIndex);
+      syncGlow();
     };
 
     // Expand item by index; collapses any other open one
@@ -297,6 +380,7 @@
           // Smooth scroll question into view
           setTimeout(() => {
             it.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            syncGlow();
           }, 100);
         } else if (it.classList.contains('iw-open')) {
           it.classList.remove('iw-open');
@@ -320,6 +404,8 @@
       const video = ans.querySelector('.iw-video');
       if (video) unmountVideo(video);
       openIndex = -1;
+      // Glow ring height tracks panel; resync after collapse
+      setTimeout(syncGlow, 500);
     };
 
     // ---- Event wiring ----
@@ -357,7 +443,11 @@
     });
 
     // Open by default (after page load, with a small delay for polish)
-    requestAnimationFrame(() => panel.classList.remove('iw-hidden'));
+    requestAnimationFrame(() => {
+      panel.classList.remove('iw-hidden');
+      // Glow needs panel's real rendered height — wait for layout
+      setTimeout(syncGlow, 100);
+    });
   };
 
   /* ---------- INIT ---------- */
