@@ -26,9 +26,8 @@
   const INTERVIEW_QUESTIONS = [
     {
       q: 'Tell me about yourself',
-       video: 'qzGxK6Uiu04',
-      a: "I'm Joy Nicolas, a product designer based in Pune with 12+ years across enterprise SaaS, design systems, and AI-driven interfaces.\n\nI've shipped UX for Microsoft's Data & AI demos at Xoriant, contributed to the shared design system at Thinkproject, and most recently used AI as a coding partner to take two side projects from blank page to deployed in under seven hours each.\n\nWhat I'm best at is spotting the second-order problem in a product — the one nobody's named yet — and building the system that fixes it."
-      
+      a: "I'm Joy Nicolas, a product designer based in Pune with 12+ years across enterprise SaaS, design systems, and AI-driven interfaces.\n\nI've shipped UX for Microsoft's Data & AI demos at Xoriant, contributed to the shared design system at Thinkproject, and most recently used AI as a coding partner to take two side projects from blank page to deployed in under seven hours each.\n\nWhat I'm best at is spotting the second-order problem in a product — the one nobody's named yet — and building the system that fixes it.",
+      video: 'qzGxK6Uiu04'
     },
     {
       q: 'Why should we hire you?',
