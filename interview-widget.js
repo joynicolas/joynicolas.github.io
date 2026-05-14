@@ -157,7 +157,7 @@
     const id = videoWrap.dataset.videoId;
     if (!id || videoWrap.querySelector('iframe')) return;
     const iframe = el('iframe', {
-      src: `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1`,
+      src: `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1`,
       title: 'Interview answer video',
       loading: 'lazy',
       allow: 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
