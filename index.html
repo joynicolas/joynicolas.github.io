@@ -111,7 +111,7 @@
   .hero-status { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background: #FFFFFF; border: 1px solid rgba(10, 10, 10, 0.08); border-radius: 100px; font-size: 13px; font-weight: 500; margin-bottom: 32px; }
   .hero-status .live-dot { width: 7px; height: 7px; background: #2B43FF; border-radius: 50%; box-shadow: 0 0 0 0 rgba(43, 67, 255, 0.7); animation: live 2s infinite; }
   @keyframes live { 0% { box-shadow: 0 0 0 0 rgba(43, 67, 255, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(43, 67, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(43, 67, 255, 0); } }
-  .hero h1 { font-size: clamp(48px, 8vw, 112px); font-weight: 500; line-height: 0.95; letter-spacing: -0.04em; margin-bottom: 32px; max-width: 1100px; }
+  .hero h1 { font-size: clamp(56px, 11vw, 168px); font-weight: 500; line-height: 0.92; letter-spacing: -0.045em; margin-bottom: 48px; max-width: 100%; }
   .hero h1 .underline { position: relative; display: inline-block; }
   .hero h1 .underline::after { content: ''; position: absolute; bottom: 4px; left: 0; right: 0; height: 6px; background: #2B43FF; z-index: -1; opacity: 0.25; transform-origin: left; transform: scaleX(0); transition: transform 1s cubic-bezier(.2,.8,.2,1) .8s; }
   .hero.revealed h1 .underline::after { transform: scaleX(1); }
@@ -157,156 +157,13 @@
   }
   .hero.revealed h1 .word > span { transform: translateY(0); }
 
-  .hero-meta { display: grid; grid-template-columns: 1.35fr 1fr; gap: 64px; align-items: start; margin-top: 56px; }
-  .hero-meta-left { display: flex; flex-direction: column; gap: 40px; }
-  .hero-bio { font-size: 19px; line-height: 1.5; color: #333; max-width: 560px; }
+  .hero-meta { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: end; margin-top: 64px; padding-top: 40px; border-top: 1px solid rgba(10,10,10,0.08); }
+  .hero-meta-left { display: flex; flex-direction: column; gap: 0; }
+  .hero-bio { font-size: 18px; line-height: 1.55; color: #333; max-width: 620px; }
   .hero-bio strong { color: #0A0A0A; font-weight: 500; }
   .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; font-family: 'JetBrains Mono', monospace; }
-  .hero-stat-num { font-size: 36px; font-weight: 500; color: #0A0A0A; letter-spacing: -0.02em; line-height: 1; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+  .hero-stat-num { font-size: 44px; font-weight: 500; color: #0A0A0A; letter-spacing: -0.02em; line-height: 1; margin-bottom: 8px; font-variant-numeric: tabular-nums; }
   .hero-stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #888; }
-
-  /* Right-side bento grid */
-  .hero-side { display: block; }
-  .hero-bento {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  .hb-card {
-    background: #FFFFFF;
-    border: 1px solid rgba(10,10,10,0.08);
-    border-radius: 18px;
-    padding: 20px 22px;
-    position: relative;
-    overflow: hidden;
-    transition: border-color .3s, transform .35s cubic-bezier(.2,.8,.2,1);
-  }
-  .hb-card:hover { border-color: rgba(43,67,255,0.28); transform: translateY(-2px); }
-  .hb-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.13em;
-    color: #2B43FF;
-    margin-bottom: 10px;
-  }
-
-  /* Availability card — full width */
-  .hb-avail {
-    grid-column: 1 / -1;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 20px 24px;
-  }
-  .hb-green-dot {
-    width: 10px; height: 10px; min-width: 10px;
-    background: #22c55e;
-    border-radius: 50%;
-    box-shadow: 0 0 0 0 rgba(34,197,94,0.5);
-    animation: gpulse 2s ease-in-out infinite;
-  }
-  @keyframes gpulse {
-    0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
-    70%  { box-shadow: 0 0 0 9px rgba(34,197,94,0); }
-    100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
-  }
-  .hb-avail-content { flex: 1; }
-  .hb-avail-title {
-    font-size: 14px; font-weight: 600;
-    color: #0A0A0A; letter-spacing: -0.01em; margin-bottom: 9px;
-  }
-  .hb-role-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .hb-role-tag {
-    padding: 4px 11px;
-    background: rgba(43,67,255,0.07);
-    border: 1px solid rgba(43,67,255,0.18);
-    border-radius: 100px;
-    font-size: 11px; font-weight: 500; color: #2B43FF;
-  }
-  .hb-rings {
-    position: absolute; right: 20px; top: 50%;
-    transform: translateY(-50%);
-    width: 88px; height: 88px; pointer-events: none;
-  }
-  .hb-rings span {
-    position: absolute; top: 50%; left: 50%;
-    border-radius: 50%;
-    border: 1.5px solid rgba(43,67,255,0.14);
-    animation: rexpand 3s ease-out infinite;
-    transform: translate(-50%,-50%) scale(0.8);
-  }
-  .hb-rings span:nth-child(1) { width: 30px; height: 30px; animation-delay: 0s; }
-  .hb-rings span:nth-child(2) { width: 55px; height: 55px; animation-delay: .8s; }
-  .hb-rings span:nth-child(3) { width: 80px; height: 80px; animation-delay: 1.6s; }
-  @keyframes rexpand {
-    0%   { opacity: .9; transform: translate(-50%,-50%) scale(0.7); }
-    100% { opacity: 0;  transform: translate(-50%,-50%) scale(1); }
-  }
-
-  /* Clock card */
-  .hb-clock {
-    background: #2B43FF;
-    border-color: #2B43FF;
-    display: flex; flex-direction: column; justify-content: center;
-  }
-  .hb-clock:hover { border-color: #1f35d4; background: #1f35d4; }
-  .hb-clock .hb-label { color: rgba(255,255,255,0.55); }
-  .hb-clock-time {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 28px; font-weight: 500;
-    color: #FFFFFF; letter-spacing: -0.03em; line-height: 1;
-    margin-bottom: 5px;
-  }
-  .hb-clock-date {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; color: rgba(255,255,255,0.6);
-    letter-spacing: 0.06em; text-transform: uppercase;
-  }
-
-  /* Current role card */
-  .hb-current { display: flex; flex-direction: column; justify-content: center; }
-  .hb-current-company {
-    font-size: 17px; font-weight: 600;
-    color: #0A0A0A; letter-spacing: -0.02em; margin-bottom: 3px;
-  }
-  .hb-current-role { font-size: 13px; color: #888; }
-  .hb-current-deco {
-    position: absolute; bottom: -4px; right: -4px;
-    width: 60px; height: 60px; pointer-events: none; opacity: 0.06;
-  }
-
-  /* Shipped projects card — full width */
-  .hb-shipped { grid-column: 1 / -1; }
-  .hb-project-row {
-    display: flex; align-items: center;
-    justify-content: space-between;
-    padding: 9px 0;
-    border-bottom: 1px dashed rgba(10,10,10,0.08);
-  }
-  .hb-project-row:last-of-type { border-bottom: none; }
-  .hb-project-name {
-    font-size: 14px; font-weight: 600;
-    color: #0A0A0A; letter-spacing: -0.01em;
-  }
-  .hb-project-meta { display: flex; gap: 5px; }
-  .hb-project-type {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px; text-transform: uppercase;
-    letter-spacing: 0.09em; color: #888;
-    padding: 3px 8px; background: #F1EFE8; border-radius: 100px;
-  }
-  .hb-project-live {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px; text-transform: uppercase;
-    letter-spacing: 0.09em; color: #22c55e;
-    padding: 3px 8px; background: rgba(34,197,94,0.1); border-radius: 100px;
-  }
-  .hb-shipped-note {
-    margin-top: 11px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; color: #bbb; letter-spacing: 0.05em;
-  }
 
   /* ---------- LOGO STRIP ---------- */
   .logos-section { background: #FAFAF7; padding: 80px 0; border-top: 1px solid rgba(10,10,10,0.06); border-bottom: 1px solid rgba(10,10,10,0.06); }
@@ -587,7 +444,276 @@
     section { padding: 64px 24px; }
     .contact { padding: 80px 24px 60px; }
   }
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testimonials-section { max-width: none; padding: 120px 0; position: relative; overflow: hidden; }
+  .testimonials-inner { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+  .testimonials-header { margin-bottom: 56px; }
+  .testimonials-scroll-wrap {
+    position: relative;
+    margin: 0 calc(50% - 50vw);
+    padding: 8px calc(50vw - 50% + 32px);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .testimonials-scroll-wrap::-webkit-scrollbar { display: none; }
+  .testimonials-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+  }
+  .testi-card {
+    flex: 0 0 calc((min(1280px, 100vw) - 64px - 40px) / 3);
+    min-width: 280px;
+    max-width: 420px;
+    height: 340px;
+    background: #FFFFFF;
+    border: 1px solid rgba(10,10,10,0.08);
+    border-radius: 22px;
+    padding: 28px 28px 24px;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: border-color .3s, transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s;
+  }
+  .testi-card:hover {
+    border-color: rgba(43,67,255,0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -20px rgba(43,67,255,0.18);
+  }
+  .testi-quote-mark {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 56px;
+    color: #2B43FF;
+    line-height: 0.5;
+    margin-bottom: 4px;
+    opacity: 0.85;
+  }
+  .testi-text {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: #333;
+    flex: 1;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .testi-readmore {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #2B43FF;
+    cursor: pointer;
+    align-self: flex-start;
+    margin-bottom: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap .25s;
+  }
+  .testi-readmore:hover { gap: 10px; }
+  .testi-readmore:disabled {
+    color: #bbb;
+    cursor: default;
+    pointer-events: none;
+  }
+  .testi-readmore .arrow { transition: transform .25s; }
+  .testi-readmore:hover .arrow { transform: translateX(2px); }
+  .testi-meta {
+    border-top: 1px solid rgba(10,10,10,0.08);
+    padding-top: 14px;
+  }
+  .testi-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0A0A0A;
+    letter-spacing: -0.01em;
+    margin-bottom: 3px;
+  }
+  .testi-role {
+    font-size: 11.5px;
+    color: #888;
+    line-height: 1.4;
+  }
+
+  /* Scroll edge gradients */
+  .testimonials-scroll-wrap::before,
+  .testimonials-scroll-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 60px;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .testimonials-scroll-wrap::before { left: 0; background: linear-gradient(to right, #FAFAF7, transparent); }
+  .testimonials-scroll-wrap::after  { right: 0; background: linear-gradient(to left, #FAFAF7, transparent); }
+
+  /* Scroll hint */
+  .testi-scroll-hint {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #888;
+  }
+  .testi-scroll-hint .hint-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(10,10,10,0.08);
+    position: relative;
+    overflow: hidden;
+    max-width: 200px;
+  }
+  .testi-scroll-hint .hint-line::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -30%;
+    width: 30%;
+    height: 100%;
+    background: #2B43FF;
+    animation: hintslide 2.4s cubic-bezier(.6,.05,.4,.95) infinite;
+  }
+  @keyframes hintslide {
+    0% { left: -30%; }
+    100% { left: 100%; }
+  }
+
+  /* ---------- MODAL ---------- */
+  .testi-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .testi-modal.open { display: flex; }
+  .testi-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(10,10,10,0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity .35s ease;
+  }
+  .testi-modal.open .testi-modal-backdrop { opacity: 1; }
+  .testi-modal-card {
+    position: relative;
+    background: #FAFAF7;
+    border-radius: 24px;
+    max-width: 680px;
+    width: 100%;
+    max-height: 85vh;
+    padding: 48px 48px 40px;
+    box-shadow: 0 40px 80px -20px rgba(10,10,10,0.35);
+    overflow-y: auto;
+    transform: translateY(20px) scale(0.96);
+    opacity: 0;
+    transition: opacity .4s cubic-bezier(.2,.8,.2,1), transform .4s cubic-bezier(.2,.8,.2,1);
+  }
+  .testi-modal.open .testi-modal-card {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  .testi-modal-card::-webkit-scrollbar { width: 6px; }
+  .testi-modal-card::-webkit-scrollbar-thumb { background: rgba(10,10,10,0.15); border-radius: 3px; }
+  .testi-modal-close {
+    position: absolute;
+    top: 18px; right: 18px;
+    width: 38px; height: 38px;
+    border: 1px solid rgba(10,10,10,0.1);
+    background: #FFFFFF;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .25s, border-color .25s, transform .35s cubic-bezier(.2,.8,.2,1);
+    padding: 0;
+  }
+  .testi-modal-close:hover {
+    background: #2B43FF;
+    border-color: #2B43FF;
+    transform: rotate(90deg);
+  }
+  .testi-modal-close::before,
+  .testi-modal-close::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 1.5px;
+    background: #0A0A0A;
+    transition: background .25s;
+  }
+  .testi-modal-close::before { transform: rotate(45deg); }
+  .testi-modal-close::after  { transform: rotate(-45deg); }
+  .testi-modal-close:hover::before,
+  .testi-modal-close:hover::after { background: #FFFFFF; }
+  .testi-modal-quote {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 88px;
+    line-height: 0.4;
+    color: #2B43FF;
+    margin-bottom: 8px;
+  }
+  .testi-modal-text {
+    font-size: 17px;
+    line-height: 1.65;
+    color: #222;
+    margin-bottom: 32px;
+    white-space: pre-line;
+  }
+  .testi-modal-meta {
+    border-top: 1px solid rgba(10,10,10,0.1);
+    padding-top: 20px;
+  }
+  .testi-modal-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: #0A0A0A;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .testi-modal-role {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.45;
+  }
+  body.modal-open { overflow: hidden; }
+
+  @media (max-width: 980px) {
+    .testi-card { flex-basis: calc((100vw - 64px - 20px) / 2); }
+  }
+  @media (max-width: 680px) {
+    .testimonials-section { padding: 80px 0; }
+    .testi-card {
+      flex-basis: calc(100vw - 80px);
+      height: 320px;
+      padding: 24px;
+    }
+    .testi-modal-card { padding: 40px 24px 28px; max-height: 90vh; }
+    .testi-modal-text { font-size: 15.5px; }
+    .testi-modal-quote { font-size: 64px; }
+  }
 </style>
+<link rel="stylesheet" href="interview-widget.css" />
 </head>
 <body>
 <!-- Custom cursor -->
@@ -624,6 +750,10 @@
         <span class="nl-inner" data-text="Approach">Approach</span>
       </a>
 
+      <a href="#testimonials" data-cursor="link">
+        <span class="nl-inner" data-text="What they say">What they say</span>
+      </a>
+
       <a
         href="mailto:joy9887@gmail.com"
         class="nav-cta"
@@ -651,83 +781,22 @@
       <p class="hero-bio reveal">
         I'm Joy Nicolas, a product designer based in Pune with twelve years across enterprise SaaS, design systems, and AI-driven interfaces. I've shipped UX for Microsoft's Data &amp; AI demos at Xoriant, contributed to the shared design system at Thinkproject, and most recently used AI as a coding partner to take two side projects from blank page to deployed in under seven hours each. <strong>What I'm best at: spotting the second-order problem in a product — the one nobody's named yet — and building the system that fixes it.</strong>
       </p>
-      <div class="hero-stats" id="heroStats">
-        <div class="reveal reveal-delay-1">
-          <div class="hero-stat-num" data-count="12" data-suffix="+">0</div>
-          <div class="hero-stat-label">Years designing</div>
-        </div>
-        <div class="reveal reveal-delay-2">
-          <div class="hero-stat-num" data-count="40" data-suffix="+">0</div>
-          <div class="hero-stat-label">Enterprise screens</div>
-        </div>
-        <div class="reveal reveal-delay-3">
-          <div class="hero-stat-num" data-count="2" data-suffix="">0</div>
-          <div class="hero-stat-label">AI apps shipped</div>
-        </div>
-      </div>
     </div>
 
-    <aside class="hero-side reveal reveal-delay-2">
-      <div class="hero-bento">
-
-        <!-- Availability — full width top -->
-        <div class="hb-card hb-avail">
-          <span class="hb-green-dot"></span>
-          <div class="hb-avail-content">
-            <div class="hb-avail-title">Open to new roles</div>
-            <div class="hb-role-tags">
-              <span class="hb-role-tag">Product Design</span>
-              <span class="hb-role-tag">Senior UX</span>
-              <span class="hb-role-tag">Lead</span>
-            </div>
-          </div>
-          <div class="hb-rings" aria-hidden="true"><span></span><span></span><span></span></div>
-        </div>
-
-        <!-- Live clock -->
-        <div class="hb-card hb-clock">
-          <div class="hb-label">/ Pune time</div>
-          <div class="hb-clock-time" id="heroClock">--:--:--</div>
-          <div class="hb-clock-date" id="heroDate">--</div>
-        </div>
-
-        <!-- Current role -->
-        <div class="hb-card hb-current">
-          <div class="hb-label">/ Currently</div>
-          <div class="hb-current-company">Finding Job</div>
-          <div class="hb-current-role">Product Designer</div>
-          <svg class="hb-current-deco" viewBox="0 0 60 60" fill="none" aria-hidden="true">
-            <rect x="2" y="2" width="56" height="56" rx="8" stroke="#2B43FF" stroke-width="3"/>
-            <rect x="10" y="10" width="18" height="18" rx="3" fill="#2B43FF"/>
-            <rect x="32" y="10" width="18" height="8" rx="2" fill="#2B43FF"/>
-            <rect x="32" y="22" width="18" height="6" rx="2" fill="#2B43FF"/>
-            <rect x="10" y="32" width="40" height="6" rx="2" fill="#2B43FF"/>
-            <rect x="10" y="42" width="28" height="6" rx="2" fill="#2B43FF"/>
-          </svg>
-        </div>
-
-        <!-- Recently shipped — full width bottom -->
-        <div class="hb-card hb-shipped">
-          <div class="hb-label">/ Recently shipped</div>
-          <div class="hb-project-row">
-            <div class="hb-project-name">Loop</div>
-            <div class="hb-project-meta">
-              <span class="hb-project-type">AI tool</span>
-              <span class="hb-project-live">Live ↗</span>
-            </div>
-          </div>
-          <div class="hb-project-row">
-            <div class="hb-project-name">Guestchat</div>
-            <div class="hb-project-meta">
-              <span class="hb-project-type">Realtime</span>
-              <span class="hb-project-live">Live ↗</span>
-            </div>
-          </div>
-          <div class="hb-shipped-note">Both under 7 hours · Deployed &amp; running</div>
-        </div>
-
+    <div class="hero-stats" id="heroStats">
+      <div class="reveal reveal-delay-1">
+        <div class="hero-stat-num" data-count="12" data-suffix="+">0</div>
+        <div class="hero-stat-label">Years designing</div>
       </div>
-    </aside>
+      <div class="reveal reveal-delay-2">
+        <div class="hero-stat-num" data-count="40" data-suffix="+">0</div>
+        <div class="hero-stat-label">Enterprise screens</div>
+      </div>
+      <div class="reveal reveal-delay-3">
+        <div class="hero-stat-num" data-count="2" data-suffix="">0</div>
+        <div class="hero-stat-label">AI apps shipped</div>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -890,8 +959,42 @@
   </div>
 </section>
 
+<!-- ---------- TESTIMONIALS ---------- -->
+<section class="testimonials-section" id="testimonials" aria-label="LinkedIn recommendations">
+  <div class="testimonials-inner">
+    <div class="testimonials-header">
+      <div class="section-eyebrow reveal">[ 04 / What they say ]</div>
+      <h2 class="section-title reveal reveal-delay-1">Words from the people <span class="serif">I've shipped with.</span></h2>
+    </div>
+  </div>
+  <div class="testimonials-scroll-wrap" id="testiScroll">
+    <div class="testimonials-track" id="testiTrack"><!-- cards injected by JS --></div>
+  </div>
+  <div class="testimonials-inner">
+    <div class="testi-scroll-hint">
+      <span>Scroll for more</span>
+      <span class="hint-line"></span>
+      <span id="testiCount">10 recommendations</span>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- TESTIMONIAL MODAL ---------- -->
+<div class="testi-modal" id="testiModal" role="dialog" aria-modal="true" aria-labelledby="testiModalName">
+  <div class="testi-modal-backdrop" data-modal-close></div>
+  <div class="testi-modal-card" role="document">
+    <button class="testi-modal-close" type="button" aria-label="Close" data-modal-close></button>
+    <div class="testi-modal-quote" aria-hidden="true">"</div>
+    <div class="testi-modal-text" id="testiModalText"></div>
+    <div class="testi-modal-meta">
+      <div class="testi-modal-name" id="testiModalName"></div>
+      <div class="testi-modal-role" id="testiModalRole"></div>
+    </div>
+  </div>
+</div>
+
 <section class="contact">
-  <div class="contact-eyebrow reveal">[ 04 / Get in touch ]</div>
+  <div class="contact-eyebrow reveal">[ 05 / Get in touch ]</div>
   <h2 class="reveal reveal-delay-1">Let's build <span class="serif">something good.</span></h2>
 
   <div class="contact-grid">
@@ -969,22 +1072,6 @@
   requestAnimationFrame(() => {
     document.getElementById('hero')?.classList.add('revealed');
   });
-
-  /* Live IST clock */
-  const clockEl = document.getElementById('heroClock');
-  const dateEl  = document.getElementById('heroDate');
-  if (clockEl) {
-    const tickClock = () => {
-      const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
-      const hh = now.getHours().toString().padStart(2,'0');
-      const mm = now.getMinutes().toString().padStart(2,'0');
-      const ss = now.getSeconds().toString().padStart(2,'0');
-      clockEl.textContent = `${hh}:${mm}:${ss}`;
-      if (dateEl) dateEl.textContent = now.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' }).toUpperCase() + ' · IST';
-    };
-    tickClock();
-    setInterval(tickClock, 1000);
-  }
 
   /* ---------- Vertical-line cursor (text only) ---------- */
   const lineCursor = document.querySelector('.line-cursor');
@@ -1158,6 +1245,131 @@
     }
   });
 
+  /* ---------- TESTIMONIALS ---------- */
+  const TESTIMONIALS = [
+    {
+      name: "Shailesh (Sal) Bhaid",
+      role: "CIO | CTO | Vice President — Data and AI Product Management Leader",
+      text: "I had the pleasure of working closely with Joy James Nicolas for over 2+ years as part of the Microsoft DREAM demo team, where he served as a Senior UX Designer. Joy consistently demonstrated a rare mix of creativity, precision, and product thinking that had a significant impact on the quality and visual consistency of our demos.\n\nOne of Joy's standout contributions was leading the transition of our demos from the old theme to the new Microsoft Fluent Design System. This wasn't just a visual upgrade—it required a deep understanding of design principles, system thinking, and attention to detail, all of which Joy brought to the table effortlessly. His work elevated the user experience across a wide range of industry scenarios including retail, healthcare, sustainability, and education.\n\nJoy also played a key role in designing intuitive and visually compelling interfaces for several AI-based scenarios. His ability to translate complex technology into clean, user-friendly designs helped us showcase the power of Microsoft's AI capabilities in a way that resonated with diverse audiences.\n\nJoy is not only a skilled designer but also a great team player who brings positivity, curiosity, and collaboration to every project. As he transitions into his new role as a Product Designer, I'm confident he will continue to deliver thoughtful, impactful design solutions. I wholeheartedly recommend Joy and wish him continued success in his career."
+    },
+    {
+      name: "Abhijeet Sarswat",
+      role: "Lead AI — UI/UX Designer | Writer | Content Creator | Performance Digital Marketer",
+      text: "I was working with Joy in Xoriant, and his design skills were impressive. Apart from a good UX Designer he is a quick learner, and always willing to contribute for the team.\n\nI would definitely recommend him as a good designer and a good team player."
+    },
+    {
+      name: "Tarun Shrivas",
+      role: "Data Science and Analytics Manager | MSBA | Azure Data Scientist | PMP® Certified",
+      text: "It has been an absolute privilege to work alongside Joy, a top-tier UX Designer, on the Microsoft DREAM Demo program. Joy's contributions have significantly advanced our program's success. He consistently demonstrates a remarkable ability to juggle multiple projects simultaneously, delivering outstanding results within designated timelines. His exceptional sense of ownership and adaptability make him a reliable and invaluable team player, always willing to go the extra mile to ensure success. Joy works seamlessly with our cross-functional team, fostering a collaborative and innovative environment that encourages creativity and growth. His designs are crisp, contemporary, and visually stunning, reflecting his keen understanding of user experience and unwavering commitment to delivering exceptional work. Joy's client-centered mindset and adaptability are evident in his interactions, making him a crucial asset to our team. Without a doubt, I wholeheartedly recommend Joy for any role that demands creativity, collaboration, and exceptional design expertise. His contributions have been invaluable, and his dedication to excellence is truly inspiring."
+    },
+    {
+      name: "CHETAN KULKARNI",
+      role: "Certified Scrum Product Owner | Certified Scrum Master | Certified AI for Agile Professionals | Project Manager",
+      text: "As the name indicates Joy, I had the pleasure of working closely with Joy Nicolas who is a UI/UX Designer for DREAM Demo project. He is an exceptional team member who possesses a remarkable ability to keep a project on track and deliver results despite working on multiple assignments. His dedication to meeting deadlines was crucial to the success of our project.\n\nHe is always ready with innovative ideas that are positively received by the client. He is a true team player and an asset to any organization. I am pretty sure that he will continue to excel in his career."
+    },
+    {
+      name: "Heini Pertta",
+      role: "Marketing professional | Digital marketing | Strategic marketing",
+      text: "I've worked with Joy in several marketing projects related to visual look and feel of our creatives: presentation templates, PowerPoint presentations, info graphs, graphics, banners etc. I appreciate his proactiveness to propose solutions, prompt deliveries and great quality."
+    },
+    {
+      name: "Patrik Persson",
+      role: "Interim Brand & Marketing Leadership | Independent Consultant",
+      text: "I have worked with Joy Nicolas for three years. In addition to superior design skills, Joy brings a high level of professionalism. Over the years and through a wide range of projects, Joy has met every challenge to create sharp, contemporary designs and to manage and complete small and large projects for a global IT company. Joy builds trust with clients. They know that when they work with him, the job will get done right. Joy would be an asset to any organization in need of a senior designer."
+    },
+    {
+      name: "Kjersti Lionæs",
+      role: "Head of Marketing & Communication | B2B Marketing Leader | Brand Strategy | Digital Campaigns | Nordic Market Expertise | 20+ Years in Marketing & Communications",
+      text: "I had the pleasure of working with Joy in TietoEVRY where he supplied the marketing departement with design support. He always delivered excellent material promptly and on time. I would higly recommend him."
+    },
+    {
+      name: "Wasita Witchutraiphop",
+      role: "Product Data Analyst",
+      text: "Joy's works are always fast and neat. Joy has a good eye for nice, clean, moden design. I worked with joy to create our SocialMedia Brand templates in both a booklet format and also on creative tool, bannerflow so we could scale and produce faster artworks under some guildelines. Really appreciate Joy's work and for always adapting and understanding marketing and branding needs."
+    },
+    {
+      name: "Nanna Wass-Gordon",
+      role: "Slower, kinder, and better than ChatGPT (for now)",
+      text: "It's been wonderful working with such a multi-talented Designer like Joy. Not only is he creative and a very nice colleague, he's also incredibly quick in his deliveries and is always eager to share tips and tricks. Being able to keep up with the various media-demands for a corporation of this size must be very hard, but Joy makes it seem easy. With any luck, I'll be working with Joy from across the pond again."
+    },
+    {
+      name: "Marianne Adams",
+      role: "Senior Digital Marketing Manager at Tieto",
+      text: "I have worked with Joy for a few years now and he's a very skilled Designer who I would gladly recommend. Joy is also extremely service-minded and flexible, and would add value to any team requiring his skills."
+    }
+  ];
+
+  const TRUNC_LIMIT = 300;
+  const truncate = (s, n) => {
+    if (s.length <= n) return s;
+    const slice = s.slice(0, n);
+    const lastSpace = slice.lastIndexOf(' ');
+    return (lastSpace > n - 60 ? slice.slice(0, lastSpace) : slice).trimEnd() + '…';
+  };
+
+  const track = document.getElementById('testiTrack');
+  const countEl = document.getElementById('testiCount');
+  if (track) {
+    countEl.textContent = TESTIMONIALS.length + ' recommendations';
+    const frag = document.createDocumentFragment();
+    TESTIMONIALS.forEach((t, i) => {
+      const isLong = t.text.length > TRUNC_LIMIT;
+      const preview = isLong ? truncate(t.text, TRUNC_LIMIT) : t.text;
+      const card = document.createElement('article');
+      card.className = 'testi-card';
+      card.innerHTML = `
+        <div class="testi-quote-mark" aria-hidden="true">"</div>
+        <p class="testi-text">${preview.replace(/\n/g, ' ')}</p>
+        <button class="testi-readmore" type="button" data-i="${i}" ${isLong ? '' : 'disabled'} aria-label="Read full recommendation from ${t.name}">
+          ${isLong ? 'Read more' : 'Full text shown'} <span class="arrow">→</span>
+        </button>
+        <div class="testi-meta">
+          <div class="testi-name">${t.name}</div>
+          <div class="testi-role">${t.role}</div>
+        </div>
+      `;
+      frag.appendChild(card);
+    });
+    track.appendChild(frag);
+
+    /* Modal */
+    const modal = document.getElementById('testiModal');
+    const mText = document.getElementById('testiModalText');
+    const mName = document.getElementById('testiModalName');
+    const mRole = document.getElementById('testiModalRole');
+    const mCard = modal.querySelector('.testi-modal-card');
+    let lastFocused = null;
+
+    const openModal = (i) => {
+      const t = TESTIMONIALS[i];
+      mText.textContent = t.text;
+      mName.textContent = t.name;
+      mRole.textContent = t.role;
+      lastFocused = document.activeElement;
+      modal.classList.add('open');
+      document.body.classList.add('modal-open');
+      mCard.scrollTop = 0;
+      setTimeout(() => modal.querySelector('.testi-modal-close')?.focus(), 50);
+    };
+    const closeModal = () => {
+      modal.classList.remove('open');
+      document.body.classList.remove('modal-open');
+      if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+    };
+
+    track.addEventListener('click', (e) => {
+      const btn = e.target.closest('.testi-readmore');
+      if (!btn || btn.disabled) return;
+      openModal(parseInt(btn.dataset.i, 10));
+    });
+    modal.addEventListener('click', (e) => {
+      if (e.target.hasAttribute('data-modal-close')) closeModal();
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+    });
+  }
+
 })();
 </script>
   <!-- SCRIPT UPDATE V2 -->
@@ -1184,5 +1396,6 @@
  <!-- SCRIPT UPDATE V2 END -->
 
 
+<script src="interview-widget.js" defer></script>
 </body>
 </html>
