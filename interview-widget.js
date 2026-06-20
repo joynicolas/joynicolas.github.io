@@ -26,12 +26,15 @@
   const INTERVIEW_QUESTIONS = [
     {
       q: 'Tell me about yourself',
-      a: "I'm Joy Nicolas, a product designer based in Pune with 12 years across enterprise SaaS, design systems, and AI-driven interfaces.\n\nI've shipped UX for Microsoft's Data & AI demos at Xoriant, contributed to the shared design system at Thinkproject, and most recently used AI as a coding partner to take two side projects from blank page to deployed in under seven hours each.\n\nWhat I'm best at is spotting the second-order problem in a product — the one nobody's named yet — and building the system that fixes it."
+      a: "I'm Joy Nicolas, a UI/UX designer based in Pune with 12+ years across enterprise tools, dashboards, design systems, and AI-driven interfaces.
+I've shipped UX for Microsoft data and AI products at Xoriant, co-owned a shared design system at Thinkproject, and most recently used AI as a coding partner to take two side projects from blank page to deployed in under seven hours each.
+What I'm best at is spotting the second-order problem in a product — the one nobody's named yet — and building the system that fixes it, whether that's a messy internal workflow, an inconsistent interface, or a dashboard people quietly avoid."
       //video: 'qzGxK6Uiu04'
     },
     {
       q: 'Why should we hire you?',
-      a: "Three reasons.\n\nFirst, I've already shipped at the scale you operate at — enterprise SaaS, design systems, complex AI interfaces. I won't need a ramp.\n\nSecond, I bridge craft and influence. I can sit in a stakeholder room and frame a problem, then jump into Figma and build the system that solves it.\n\nThird, I move. Two AI side projects from idea to deployed in under seven hours each — that's the pace I bring to real work.",
+      a: "Because I cover the full span this kind of role needs without handoff gaps. I can sit with business analysts and stakeholders to understand a workflow, turn it into wireframes, prototypes, and a clean information architecture, design the high-fidelity interface against brand and accessibility standards, and then hand it to developers in a way they can actually build — because I work in HTML, CSS, and JavaScript myself.
+I also think in systems, so what I deliver isn't a one-off screen — it's reusable components and templates that keep future work consistent and fast. And I treat AI as a real part of the toolkit to move faster on the repetitive parts while keeping the design judgment human.",
       cta: { label: 'See my work', href: '#work' }
     },
     {
@@ -40,7 +43,9 @@
     },
     {
       q: 'How do you work with developers?',
-      a: "Early and often. I don't throw designs over the wall.\n\nI loop developers in during exploration — they catch feasibility issues before I've committed three days to a direction. I design against the existing component library so handoff is closer to spec than to interpretation.\n\nDuring build, I review staging environments and file tickets for visual or behavior drift. After ship, I QA in production. Developers I've worked with tend to want to work with me again."
+      a: "Closely, and early. I bring developers in during design, not after, so I'm designing something feasible from the start.
+Because I have working knowledge of HTML, CSS, JavaScript, and Git-based workflows, I can speak their language — communicating interaction behavior, responsive breakpoints, accessibility expectations, and front-end intent precisely instead of throwing a static file over the wall. I deliver clean, well-organized Figma handoffs with documented components, and I stay available through the build and review cycles to keep the implementation true to the design.
+The result is fewer back-and-forths and interfaces that ship looking the way they were meant to."
     },
     {
       q: 'Describe a challenging project',
@@ -48,7 +53,8 @@
     },
     {
       q: 'What makes you different from other designers?',
-      a: "I treat design as a systems problem, not a screens problem.\n\nMost designers I respect are great at making one screen beautiful. I'm interested in the rules that make a thousand screens consistent — and the second-order effects nobody else is tracking.\n\nI also code now. Not to replace developers, but to prototype faster and to make handoff conversations sharper. The Loop and Guestchat side projects exist because I stopped waiting for engineering bandwidth and built them myself.",
+      a: "Range, and where I sit between disciplines. I started in visual and brand design, so I have a strong eye for typography, layout, and polish — but I grew into UX, design systems, and front-end, so I can carry an idea from a stakeholder conversation all the way to a built, accessible, on-brand interface.
+That blend matters for work that lives between marketing, communications, and product — where a design has to be both beautiful and genuinely usable. I'm also fluent with AI-enabled workflows, so I move fast without dropping quality. Fundamentally, I'm a systems thinker who still sweats the pixels.",
       cta: { label: 'See side projects', href: '#side' }
     }
   ];
