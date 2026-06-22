@@ -168,6 +168,14 @@ window.PROJECTS = {
       }
     ],
 
+    "resource": {
+      "eyebrow": "/ live file",
+      "title": "Explore the real file",
+      "intro": "This isn't a mockup of a case study — the full component is published on Figma Community. Open it to inspect the three token tiers and their aliasing, toggle the light/dark modes, walk the five states, and read the documentation. Duplicate it to see exactly how the system is wired.",
+      "label": "Open on Figma Community",
+      "href": "https://www.figma.com/community/file/1650747534674926005/single-file-upload-component-scalable-design-system"
+    },
+
     "next": { "label": "Microsoft · Azure AI", "href": "microsoft.html" }
   }
 
