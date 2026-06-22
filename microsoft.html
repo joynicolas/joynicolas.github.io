@@ -714,8 +714,9 @@
 <body class="text-cursor">
 <!-- PASSWORD GATE -->
 <div id="passGate" style="position:fixed;inset:0;z-index:99999;background:rgba(250,250,247,0.98);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;padding:24px;">
-  <div style="max-width:520px;width:100%;background:#FFFFFF;border:1px solid rgba(10,10,10,0.08);border-radius:24px;padding:48px 40px;box-shadow:0 20px 60px rgba(10,10,10,0.08);">
-    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;color:#2B43FF;margin-bottom:20px;">[ Before you read ]</div>
+  <div style="position:relative;max-width:520px;width:100%;background:#FFFFFF;border:1px solid rgba(10,10,10,0.08);border-radius:24px;padding:48px 40px;box-shadow:0 20px 60px rgba(10,10,10,0.08);">
+    <button id="passClose" type="button" aria-label="Close and return to all work" style="position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;border:1px solid rgba(10,10,10,0.1);background:#fff;color:#0A0A0A;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;line-height:1;transition:background .2s,color .2s,transform .35s cubic-bezier(.2,.8,.2,1);" onmouseover="this.style.background='#2B43FF';this.style.color='#fff';this.style.transform='rotate(90deg)'" onmouseout="this.style.background='#fff';this.style.color='#0A0A0A';this.style.transform='none'">✕</button>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;color:#2B43FF;margin-bottom:20px;padding-right:28px;">[ Before you read ]</div>
     <h2 style="font-size:32px;font-weight:500;line-height:1.15;letter-spacing:-0.025em;margin-bottom:20px;">This isn't a <span style="font-family:'Instrument Serif',serif;font-style:italic;color:#2B43FF;">copy-paste</span> case study.</h2>
     <p style="font-size:15px;line-height:1.65;color:#444;margin-bottom:14px;">It's a real project, with real insights, real trade-offs, and a real reframe that took me weeks to see.</p>
     <p style="font-size:15px;line-height:1.65;color:#444;margin-bottom:28px;">If you're here to skim, this won't land. If you're serious about understanding how I think — you'll need the password.</p>
@@ -727,7 +728,7 @@
     <p style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#888;line-height:1.6;">[ Call Joy · +91-96234 65096 ]</p>
   </div>
 </div>
-<style> body.locked{overflow:hidden;} body.locked .line-cursor{display:none!important;} @media (max-width: 540px) {   .passForm { flex-direction: column; }   .passForm input, .passForm button { width: 100%; }   .passForm button { padding: 16px !important; } } </style>
+<style> body.locked{overflow:hidden;cursor:auto!important;} body.locked .line-cursor{display:none!important;} #passGate, #passGate *{cursor:auto;} #passGate button{cursor:pointer;} #passGate input{cursor:text;} @media (max-width: 540px) {   .passForm { flex-direction: column; }   .passForm input, .passForm button { width: 100%; }   .passForm button { padding: 16px !important; } } </style>
 <div class="line-cursor" id="lineCursor"></div>
 
 <!-- NAV — exact match to index.html, with roll-up text + hamburger -->
@@ -1286,10 +1287,10 @@
 <!-- NEXT -->
 <section class="next-section">
   <div class="container">
-    <a href="thinkproject.html" class="next-link">
+    <a href="case.html?id=thinkproject" class="next-link">
       <div class="next-link-left">
         <div class="lbl">[ Next case study → ]</div>
-        <h3>Contributing to a shared design system at Thinkproject</h3>
+        <h3>A Report Issue module for Thinkproject's VDC platform</h3>
       </div>
       <svg class="next-arrow" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M5 12h14"/>
@@ -1313,6 +1314,7 @@
   const form = document.getElementById('passForm');
   const input = document.getElementById('passInput');
   const errEl = document.getElementById('passError');
+  const closeBtn = document.getElementById('passClose');
   if (!gate || !form) return;
 
   if (sessionStorage.getItem(KEY) === '1') {
@@ -1320,6 +1322,11 @@
   } else {
     document.body.classList.add('locked');
     setTimeout(function () { input.focus(); }, 50);
+    var leave = function () { window.location.href = 'index.html#work'; };
+    if (closeBtn) closeBtn.addEventListener('click', leave);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && document.body.classList.contains('locked')) leave();
+    });
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (input.value.trim().toLowerCase() === 'joy9887') {

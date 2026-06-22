@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Joy Nicolas — Product Designer</title>
-<meta name="description" content="Product Designer with 12+ years across enterprise SaaS, design systems, and AI-driven products. Open to Product Design, Senior UX, and Lead roles." />
+<meta name="description" content="AI UX Product Designer and Design System Specialist with 12+ years across enterprise SaaS, design systems, and AI-driven products." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -110,6 +110,7 @@
   .hero { max-width: 1280px; margin: 0 auto; padding: 80px 32px 60px; position: relative; }
   .hero-status { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background: #FFFFFF; border: 1px solid rgba(10, 10, 10, 0.08); border-radius: 100px; font-size: 13px; font-weight: 500; margin-bottom: 32px; }
   .hero-status .live-dot { width: 7px; height: 7px; background: #2B43FF; border-radius: 50%; box-shadow: 0 0 0 0 rgba(43, 67, 255, 0.7); animation: live 2s infinite; }
+  .hero-status-icon { color: #2B43FF; font-size: 16px; line-height: 1; display: inline-flex; }
   @keyframes live { 0% { box-shadow: 0 0 0 0 rgba(43, 67, 255, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(43, 67, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(43, 67, 255, 0); } }
   .hero h1 { font-size: clamp(56px, 11vw, 168px); font-weight: 500; line-height: 0.92; letter-spacing: -0.045em; margin-bottom: 48px; max-width: 100%; }
   .hero h1 .underline { position: relative; display: inline-block; }
@@ -768,8 +769,8 @@
 
 <header class="hero" id="hero">
   <div class="hero-status">
-    <span class="live-dot"></span>
-    Open to Product Design, Senior UX &amp; Lead roles
+    <i class="ti ti-sparkles hero-status-icon" aria-hidden="true"></i>
+    AI UX Product Designer, Design System Specialist
   </div>
 
   <h1 id="heroTitle">
@@ -860,28 +861,54 @@
       </div>
     </a>
 
-    <a href="thinkproject.html" class="work-card reveal reveal-delay-1" data-cursor="label" data-cursor-label="Read case">
+    <a href="case.html?id=thinkproject" class="work-card reveal reveal-delay-1" data-cursor="label" data-cursor-label="Read case">
       <div class="work-card-grid">
         <div>
           <div class="work-card-num">Case 02 / Thinkproject · 2025</div>
-          <h3>Contributing to a shared design system across multiple Thinkproject product areas.</h3>
+          <h3>A Report Issue module that lets site engineers flag a fault without leaving the 3D model.</h3>
           <p class="work-card-desc">
-            Worked on component structure and design tokens to improve consistency across multiple product surfaces. The case study is being written this week.
+            For Thinkproject's VDC platform, I designed a way to report construction faults straight from the 3D model — element, location and photo captured in-context — cutting a ~10-minute, app-switching process down to about two.
           </p>
           <div class="work-tags">
             <span class="work-tag">Product Designer</span>
-            <span class="work-tag">Design tokens</span>
+            <span class="work-tag">VDC</span>
+            <span class="work-tag">Report Issue module</span>
             <span class="work-tag">WCAG 2.2</span>
-            <span class="work-tag">Coming soon</span>
           </div>
           <span class="work-card-cta">
             Read the case study
             <i class="ti ti-arrow-right"></i>
           </span>
         </div>
-        <div class="work-card-visual soon">
-          <i class="ti ti-components work-card-visual-icon"></i>
-          <span class="work-card-visual-label">In progress · Available Soon</span>
+        <div class="work-card-visual">
+          <i class="ti ti-flag-2 work-card-visual-icon"></i>
+          <span class="work-card-visual-label">VDC · Report Issue · ~80% faster</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="case.html?id=design-system-upload" class="work-card reveal reveal-delay-2" data-cursor="label" data-cursor-label="Read case">
+      <div class="work-card-grid">
+        <div>
+          <div class="work-card-num">Case 03 / Design System · 2026</div>
+          <h3>A single-file upload component — and the scalable design system underneath it.</h3>
+          <p class="work-card-desc">
+            One component, used to prove how I build for scale: a three-tier token architecture (Core → Semantic → Component), theming driven by variable modes so one toggle reskins everything with zero component edits, and primitives composed instead of duplicated — including a nested component cut from 12 variants to 3.
+          </p>
+          <div class="work-tags">
+            <span class="work-tag">Design system</span>
+            <span class="work-tag">Variables</span>
+            <span class="work-tag">3-tier tokens</span>
+            <span class="work-tag">Theming</span>
+          </div>
+          <span class="work-card-cta">
+            Read the case study
+            <i class="ti ti-arrow-right"></i>
+          </span>
+        </div>
+        <div class="work-card-visual">
+          <i class="ti ti-stack-2 work-card-visual-icon"></i>
+          <span class="work-card-visual-label">3-tier tokens · light + dark · 12 → 3 variants</span>
         </div>
       </div>
     </a>

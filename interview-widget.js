@@ -26,15 +26,12 @@
   const INTERVIEW_QUESTIONS = [
     {
       q: 'Tell me about yourself',
-      a: "I'm Joy Nicolas, a UI/UX designer based in Pune with 12+ years across enterprise tools, dashboards, design systems, and AI-driven interfaces.
-I've shipped UX for Microsoft data and AI products at Xoriant, co-owned a shared design system at Thinkproject, and most recently used AI as a coding partner to take two side projects from blank page to deployed in under seven hours each.
-What I'm best at is spotting the second-order problem in a product — the one nobody's named yet — and building the system that fixes it, whether that's a messy internal workflow, an inconsistent interface, or a dashboard people quietly avoid."
+      a: "I'm Joy Nicolas, a UI/UX designer based in Pune with 12+ years across enterprise tools, dashboards, design systems, and AI-driven interfaces.\n\nI've shipped UX for Microsoft data and AI products at Xoriant, co-owned a shared design system at Thinkproject, and most recently used AI as a coding partner to take two side projects from blank page to deployed in under seven hours each.\n\nWhat I'm best at is spotting the second-order problem in a product — the one nobody's named yet — and building the system that fixes it, whether that's a messy internal workflow, an inconsistent interface, or a dashboard people quietly avoid."
       //video: 'qzGxK6Uiu04'
     },
     {
       q: 'Why should we hire you?',
-      a: "Because I cover the full span this kind of role needs without handoff gaps. I can sit with business analysts and stakeholders to understand a workflow, turn it into wireframes, prototypes, and a clean information architecture, design the high-fidelity interface against brand and accessibility standards, and then hand it to developers in a way they can actually build — because I work in HTML, CSS, and JavaScript myself.
-I also think in systems, so what I deliver isn't a one-off screen — it's reusable components and templates that keep future work consistent and fast. And I treat AI as a real part of the toolkit to move faster on the repetitive parts while keeping the design judgment human.",
+      a: "Because I cover the full span this kind of role needs without handoff gaps. I can sit with business analysts and stakeholders to understand a workflow, turn it into wireframes, prototypes, and a clean information architecture, design the high-fidelity interface against brand and accessibility standards, and then hand it to developers in a way they can actually build — because I work in HTML, CSS, and JavaScript myself.\n\nI also think in systems, so what I deliver isn't a one-off screen — it's reusable components and templates that keep future work consistent and fast. And I treat AI as a real part of the toolkit to move faster on the repetitive parts while keeping the design judgment human.",
       cta: { label: 'See my work', href: '#work' }
     },
     {
@@ -43,9 +40,7 @@ I also think in systems, so what I deliver isn't a one-off screen — it's reusa
     },
     {
       q: 'How do you work with developers?',
-      a: "Closely, and early. I bring developers in during design, not after, so I'm designing something feasible from the start.
-Because I have working knowledge of HTML, CSS, JavaScript, and Git-based workflows, I can speak their language — communicating interaction behavior, responsive breakpoints, accessibility expectations, and front-end intent precisely instead of throwing a static file over the wall. I deliver clean, well-organized Figma handoffs with documented components, and I stay available through the build and review cycles to keep the implementation true to the design.
-The result is fewer back-and-forths and interfaces that ship looking the way they were meant to."
+      a: "Closely, and early. I bring developers in during design, not after, so I'm designing something feasible from the start.\n\nBecause I have working knowledge of HTML, CSS, JavaScript, and Git-based workflows, I can speak their language — communicating interaction behavior, responsive breakpoints, accessibility expectations, and front-end intent precisely instead of throwing a static file over the wall. I deliver clean, well-organized Figma handoffs with documented components, and I stay available through the build and review cycles to keep the implementation true to the design.\n\nThe result is fewer back-and-forths and interfaces that ship looking the way they were meant to."
     },
     {
       q: 'Describe a challenging project',
@@ -53,8 +48,7 @@ The result is fewer back-and-forths and interfaces that ship looking the way the
     },
     {
       q: 'What makes you different from other designers?',
-      a: "Range, and where I sit between disciplines. I started in visual and brand design, so I have a strong eye for typography, layout, and polish — but I grew into UX, design systems, and front-end, so I can carry an idea from a stakeholder conversation all the way to a built, accessible, on-brand interface.
-That blend matters for work that lives between marketing, communications, and product — where a design has to be both beautiful and genuinely usable. I'm also fluent with AI-enabled workflows, so I move fast without dropping quality. Fundamentally, I'm a systems thinker who still sweats the pixels.",
+      a: "Range, and where I sit between disciplines. I started in visual and brand design, so I have a strong eye for typography, layout, and polish — but I grew into UX, design systems, and front-end, so I can carry an idea from a stakeholder conversation all the way to a built, accessible, on-brand interface.\n\nThat blend matters for work that lives between marketing, communications, and product — where a design has to be both beautiful and genuinely usable. I'm also fluent with AI-enabled workflows, so I move fast without dropping quality. Fundamentally, I'm a systems thinker who still sweats the pixels.",
       cta: { label: 'See side projects', href: '#side' }
     }
   ];
@@ -65,7 +59,8 @@ That blend matters for work that lives between marketing, communications, and pr
     close:    '<svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3.5 3.5l7 7M10.5 3.5l-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
     plus:     '<svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M5 1.5v7M1.5 5h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>',
     chat:     '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 4.5C3 3.67 3.67 3 4.5 3h7c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5H7l-2.5 2v-2H4.5C3.67 11 3 10.33 3 9.5v-5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>',
-    arrow:    '<svg class="iw-cta-arrow" viewBox="0 0 12 12" fill="none" aria-hidden="true" width="10" height="10"><path d="M2.5 6h7M6 2.5L9.5 6 6 9.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    arrow:    '<svg class="iw-cta-arrow" viewBox="0 0 12 12" fill="none" aria-hidden="true" width="10" height="10"><path d="M2.5 6h7M6 2.5L9.5 6 6 9.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    interview:'<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="6" y="1.8" width="4" height="7" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M3.8 7.2a4.2 4.2 0 0 0 8.4 0M8 11.4V14M5.8 14h4.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
   };
 
   /* ---------- DOM HELPERS ---------- */
@@ -198,7 +193,7 @@ That blend matters for work that lives between marketing, communications, and pr
       'aria-label': 'Open Quick Interview With Joy'
     });
     launcher.innerHTML = `
-      <span class="iw-launcher-dot" aria-hidden="true"></span>
+      <span class="iw-launcher-ico" aria-hidden="true">${ICONS.interview}</span>
       Quick Interview
     `;
 
@@ -214,12 +209,11 @@ That blend matters for work that lives between marketing, communications, and pr
     header.innerHTML = `
       <div class="iw-header-top">
         <div class="iw-title-wrap">
-          <span class="iw-status-dot" aria-hidden="true"></span>
+          <span class="iw-title-ico" aria-hidden="true">${ICONS.interview}</span>
           <h2 class="iw-title">Quick Interview With Joy</h2>
         </div>
         <div class="iw-header-actions">
-          <button class="iw-icon-btn" type="button" data-action="minimize" aria-label="Minimize">${ICONS.minimize}</button>
-          <button class="iw-icon-btn" type="button" data-action="close" aria-label="Close">${ICONS.close}</button>
+          <button class="iw-icon-btn" type="button" data-action="close" aria-label="Minimize">${ICONS.minimize}</button>
         </div>
       </div>
       <p class="iw-subtitle">These are the most common questions recruiters ask. Click any question to see the answers instantly.</p>
@@ -253,7 +247,7 @@ That blend matters for work that lives between marketing, communications, and pr
     const { root, launcher, panel, body } = buildWidget();
     document.body.appendChild(root);
 
-    let isOpen = true;       // Open by default per spec
+    let isOpen = false;      // Minimized by default — show the launcher, not the panel
     let isMinimized = false;
     let openIndex = -1;
 
@@ -340,30 +334,22 @@ That blend matters for work that lives between marketing, communications, and pr
       else expandItem(index);
     });
 
-    // Header action buttons
-    panel.querySelector('[data-action="minimize"]').addEventListener('click', minimizePanel);
+    // Header action button — collapses the panel back to the launcher.
     panel.querySelector('[data-action="close"]').addEventListener('click', hidePanel);
 
     // Launcher re-opens
     launcher.addEventListener('click', showPanel);
 
-    // Keyboard: Escape closes (when not minimized)
+    // Keyboard: Escape collapses to the launcher
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && isOpen && !isMinimized) {
+      if (e.key === 'Escape' && isOpen) {
         hidePanel();
       }
     });
 
-    // If user clicks header in minimized state, expand again
-    panel.querySelector('.iw-header').addEventListener('click', (e) => {
-      if (isMinimized && !e.target.closest('.iw-icon-btn')) {
-        panel.classList.remove('iw-minimized');
-        isMinimized = false;
-      }
-    });
-
-    // Open by default (after page load, with a small delay for polish)
-    requestAnimationFrame(() => panel.classList.remove('iw-hidden'));
+    // Minimized by default — keep the panel hidden and show the launcher button.
+    panel.classList.add('iw-hidden');
+    launcher.classList.add('iw-visible');
   };
 
   /* ---------- INIT ---------- */
