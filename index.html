@@ -166,6 +166,22 @@
   .hero-stat-num { font-size: 44px; font-weight: 500; color: #0A0A0A; letter-spacing: -0.02em; line-height: 1; margin-bottom: 8px; font-variant-numeric: tabular-nums; }
   .hero-stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #888; }
 
+  /* ---------- HERO PIXEL FOG + HIDDEN FACTS ---------- */
+  /* Keep real hero content above the pixel fog */
+  .hero-status, .hero h1, .hero-meta { position: relative; z-index: 2; }
+  /* size + position are set in JS so the fog spans the full viewport width and stops at the divider */
+  .hero-pixels { position: absolute; top: 0; left: 0; z-index: 1; pointer-events: none; }
+  .hero-facts { position: absolute; top: 0; left: 0; z-index: 3; pointer-events: none; }
+  .hero-fact {
+    position: absolute; transform: translate(-50%, -50%);
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500;
+    letter-spacing: 0.02em; color: #2B43FF; white-space: nowrap;
+    opacity: 0; transition: opacity .3s ease;
+  }
+  @media (hover: none), (max-width: 900px) {
+    .hero-pixels, .hero-facts { display: none; }
+  }
+
   /* ---------- LOGO STRIP ---------- */
   .logos-section { background: #FAFAF7; padding: 80px 0; border-top: 1px solid rgba(10,10,10,0.06); border-bottom: 1px solid rgba(10,10,10,0.06); }
   .logos-caption { font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.15em; color: #888; text-align: center; margin-bottom: 16px; }
@@ -777,6 +793,20 @@
     I'm a product designer for <span class="rotator"><span class="rotator-word" id="rotatorWord">enterprise SaaS</span><span class="rotator-spacer" aria-hidden="true">accessibility-first teams</span></span>
   </h1>
 
+  <!-- Pixel fog across the hero; the cursor parts it to reveal these hidden facts. -->
+  <canvas class="hero-pixels" id="heroPixels" aria-hidden="true"></canvas>
+  <div class="hero-facts" id="heroFacts" aria-hidden="true">
+    <!-- top/left are the label CENTRE, as % of the full-width fog area. Nudge to taste. -->
+    <span class="hero-fact" style="top:20%; left:90%;">Pune, India</span>
+    <span class="hero-fact" style="top:40%; left:94%;">Likes Sci-Fi</span>
+    <span class="hero-fact" style="top:62%; left:91%;">Loves a good system</span>
+    <span class="hero-fact" style="top:16%; left:9%;">Born 1987</span>
+    <span class="hero-fact" style="top:88%; left:12%;">12 years in design</span>
+    <span class="hero-fact" style="top:88%; left:38%;">Sweats the details</span>
+    <span class="hero-fact" style="top:88%; left:63%;">Curious by default</span>
+    <span class="hero-fact" style="top:88%; left:87%;">Finds the hidden problem</span>
+  </div>
+
   <div class="hero-meta">
     <div class="hero-meta-left">
       <p class="hero-bio reveal">
@@ -1091,6 +1121,136 @@
   requestAnimationFrame(() => {
     document.getElementById('hero')?.classList.add('revealed');
   });
+
+  /* ---------- Hero pixel fog: the cursor parts the pixels to reveal hidden facts ---------- */
+  const heroEl = document.getElementById('hero');
+  const pxCanvas = document.getElementById('heroPixels');
+  const factsBox = document.getElementById('heroFacts');
+  const factEls = Array.from(document.querySelectorAll('.hero-fact'));
+  if (heroEl && pxCanvas && !isTouch) {
+    const ctx = pxCanvas.getContext('2d');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const SP = 12;            // pixel spacing (px) — dense, close together
+    const SIZE = 2;           // pixel draw size (px) — small grain
+    const BASE_A = 0.10;      // resting opacity (subtle fog)
+    const R = 100;            // cursor influence radius
+    const FORCE = 26;         // how far pixels are pushed away
+    const EASE = 0.18;        // pixel spring stiffness
+    const LABEL_R = 135;      // cursor proximity that reveals a fact
+    const HINT_R = 52;        // radius of the coloured hint around each hidden fact
+    const HINT_RGB = '120,86,255';   // hint tint (violet) vs base blue 43,67,255
+    const smooth = (x) => { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); };
+    let W = 0, H = 0, heroTop = 0, pts = [], hintPts = [];
+    let mx = -9999, my = -9999, inside = false;
+
+    const build = () => {
+      const r = heroEl.getBoundingClientRect();
+      if (!r.width) return;
+      const meta = heroEl.querySelector('.hero-meta');
+      const vw = document.documentElement.clientWidth;
+      const divY = meta ? meta.offsetTop : r.height;   // y of the divider line within hero
+      W = vw; H = divY; heroTop = r.top;
+      // Break out to full viewport width; stop at the divider above the paragraph.
+      const offLeft = -r.left;
+      pxCanvas.style.left = offLeft + 'px'; pxCanvas.style.top = '0px';
+      pxCanvas.style.width = vw + 'px'; pxCanvas.style.height = divY + 'px';
+      if (factsBox) { factsBox.style.left = offLeft + 'px'; factsBox.style.top = '0px'; factsBox.style.width = vw + 'px'; factsBox.style.height = divY + 'px'; }
+      pxCanvas.width = Math.round(W * dpr);
+      pxCanvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // Fact centres in canvas coords (canvas on-screen origin is x=0, y=heroTop).
+      const fcs = factEls.map((f) => {
+        const fr = f.getBoundingClientRect();
+        return { x: fr.left + fr.width / 2, y: fr.top + fr.height / 2 - r.top, hr: Math.max(HINT_R, fr.width * 0.62) };
+      });
+      pts = []; hintPts = [];
+      for (let y = SP / 2; y < H; y += SP) {
+        for (let x = SP / 2; x < W; x += SP) {
+          let hint = 0;
+          for (let k = 0; k < fcs.length; k++) {
+            const c = fcs[k], hd = Math.hypot(x - c.x, y - c.y);
+            if (hd < c.hr) hint = Math.max(hint, smooth(1 - hd / c.hr));
+          }
+          const p = { x, y, ox: 0, oy: 0, hint };
+          pts.push(p);
+          if (hint > 0.02) hintPts.push(p);
+        }
+      }
+      drawFrame();
+    };
+
+    const drawFrame = () => {
+      ctx.clearRect(0, 0, W, H);
+      let moving = false;
+      // Pass 1 — the base fog (single fill colour for speed).
+      ctx.fillStyle = 'rgba(43,67,255,' + BASE_A + ')';
+      for (let i = 0; i < pts.length; i++) {
+        const p = pts[i];
+        let tx = 0, ty = 0;
+        if (inside) {
+          const dx = p.x - mx, dy = p.y - my;
+          if (dx > -R && dx < R && dy > -R && dy < R) {
+            const d = Math.hypot(dx, dy);
+            if (d < R && d > 0.01) {
+              const f = 1 - d / R, push = f * f * FORCE;
+              tx = (dx / d) * push; ty = (dy / d) * push;
+            }
+          }
+        }
+        p.ox += (tx - p.ox) * EASE; p.oy += (ty - p.oy) * EASE;
+        if (Math.abs(p.ox - tx) > 0.1 || Math.abs(p.oy - ty) > 0.1) moving = true;
+        ctx.fillRect(p.x + p.ox - SIZE / 2, p.y + p.oy - SIZE / 2, SIZE, SIZE);
+      }
+      // Pass 2 — recolour the pixels over a hidden fact so its spot is gently hinted.
+      for (let i = 0; i < hintPts.length; i++) {
+        const p = hintPts[i];
+        ctx.fillStyle = 'rgba(' + HINT_RGB + ',' + (BASE_A * (0.5 + 1.3 * p.hint)).toFixed(3) + ')';
+        ctx.fillRect(p.x + p.ox - SIZE / 2, p.y + p.oy - SIZE / 2, SIZE, SIZE);
+      }
+      // Feather the bottom edge so the fog dissolves into the page (no hard line at the divider).
+      const fade = Math.min(H * 0.5, 130);
+      const g = ctx.createLinearGradient(0, H - fade, 0, H);
+      g.addColorStop(0, 'rgba(0,0,0,0)');
+      g.addColorStop(1, 'rgba(0,0,0,1)');
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.fillStyle = g;
+      ctx.fillRect(0, H - fade, W, fade);
+      ctx.globalCompositeOperation = 'source-over';
+      return moving;
+    };
+
+    let raf = 0;
+    const loop = () => { raf = drawFrame() ? requestAnimationFrame(loop) : 0; };
+    const kick = () => { if (!raf) raf = requestAnimationFrame(loop); };
+
+    build();
+    window.addEventListener('resize', build);
+    window.addEventListener('load', build);
+
+    if (prefersReduced) {
+      // Static fog, facts kept faintly legible (no motion).
+      factEls.forEach((f) => { f.style.opacity = '0.55'; });
+    } else {
+      // Listen on window so the effect covers the FULL width, not just the centred hero box.
+      window.addEventListener('mousemove', (e) => {
+        heroTop = heroEl.getBoundingClientRect().top;
+        mx = e.clientX; my = e.clientY - heroTop;     // canvas origin: x=0, y=heroTop
+        inside = my >= 0 && my <= H;                  // only active above the divider line
+        factEls.forEach((f) => {
+          const fr = f.getBoundingClientRect();
+          const fcx = fr.left + fr.width / 2, fcy = fr.top + fr.height / 2 - heroTop;
+          const d = Math.hypot(mx - fcx, my - fcy);
+          f.style.opacity = (inside ? smooth(1 - d / LABEL_R) : 0).toFixed(3);
+        });
+        kick();
+      });
+      document.addEventListener('mouseleave', () => {
+        inside = false; mx = my = -9999;
+        factEls.forEach((f) => { f.style.opacity = '0'; });
+        kick();
+      });
+    }
+  }
 
   /* ---------- Vertical-line cursor (text only) ---------- */
   const lineCursor = document.querySelector('.line-cursor');
