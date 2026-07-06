@@ -6,8 +6,82 @@
    ===================================================================== */
 window.PROJECTS = {
 
+  "ai-stylist-checkout": {
+    "eyebrow": "Case 01 / Luxury Fashion · 2026",
+    "title": "An AI stylist that helps luxury shoppers decide what to buy — then compresses checkout into a 10-second review.",
+    "role": "Product Designer",
+    "year": "2026",
+    "team": "Myself",
+    "tags": ["AI-assisted UX", "Luxury e-commerce", "Working prototype", "Design system"],
+
+    "brief": [
+      "A self-initiated, end-to-end redesign of a luxury fashion shopping app, built to answer one question: where should AI actually live in a shopping journey? My answer is <strong>up-funnel</strong>. The AI stylist earns its keep helping the customer decide <em>what</em> to buy — proposing complete looks with reasons attached — so that by the time money changes hands, checkout is a single confident review. Everything below is working code, mirrored 1:1 in Figma.",
+      "Four principles hold the flow together: <strong>AI proposes, never imposes</strong> — every AI action is visible, explained and reversible in one tap. <strong>Decide earlier, pay faster</strong> — decision support lives up-funnel so checkout becomes a 10-second review. <strong>Luxury tone preserved</strong> — the assistant speaks like a personal shopper; gold is the AI's voice, terracotta is commerce, and they never mix. <strong>Trust at the money step</strong> — details are pre-filled from saved data with clear provenance, and nothing is charged without explicit confirmation."
+    ],
+
+    "impact": {
+      "before": "Browse alone, re-type at checkout",
+      "after": "Styled, decided, 10-second review",
+      "delta": "AI effort moved up-funnel — decision support, not checkout pressure",
+      "note": "Self-initiated exploration — figures describe the designed flow, not measured production data.",
+      "points": [
+        "The stylist proposes complete looks with a visible reason for every recommendation, so accepting or swapping an item is one tap — never a black box.",
+        "The bag works for the customer: the assistant surfaces savings and applicable offers before the customer goes hunting for them.",
+        "Checkout is an express review — address, delivery and payment pre-filled from saved data with clear provenance; paying is one confirmation, not a form.",
+        "Post-purchase, the stylist stays useful — care guidance and pairing suggestions instead of a dead-end receipt."
+      ]
+    },
+
+    "sections": [
+      {
+        "title": "Watch the flow",
+        "intro": "Seven screens from entry to confirmation, played as an animated walkthrough — the same interaction logic as the working prototype. Use the controls inside the frame to play, pause or replay.",
+        "embed": {
+          "src": "ai-stylist/demo.html",
+          "title": "Animated walkthrough — AI-assisted shopping and checkout",
+          "height": "1020px",
+          "caption": "Animated walkthrough — entry → intent → looks → selection → bag → express checkout → confirmation."
+        }
+      },
+      {
+        "title": "Seven decisions, annotated",
+        "intro": "The flow board walks every screen with its design rationale — the AI's role, the data it uses, why it converts, and the guardrails at the money step. 01 Entry: one quiet stylist entry point on the home screen. 02 Intent: the customer tells the stylist the occasion. 03 Decision support: AI-generated looks, with reasons. 04 Product selection with AI advice. 05 Bag: the assistant finds the savings. 06 Express review: the 10-second checkout. 07 Post-purchase: the stylist stays useful.",
+        "embed": {
+          "src": "ai-stylist/index.html",
+          "title": "Annotated end-to-end flow board",
+          "height": "760px",
+          "caption": "The annotated flow board — scroll inside the frame, or open it full screen."
+        }
+      },
+      {
+        "title": "The system underneath",
+        "intro": "The visual language runs on a three-tier token architecture — core primitives, semantic roles, component assignments — implemented twice: as the CSS custom properties rendering these live pages, and as Figma variable collections. Gold and terracotta are semantic roles, not decoration: gold marks the AI's voice, terracotta marks commerce, and the tiers keep them from ever mixing.",
+        "embed": {
+          "src": "ai-stylist/designsystem.html",
+          "title": "Live design system — tokens, typography, components",
+          "height": "760px",
+          "caption": "The live design system — every colour, type style and component on this page is tokenised and interactive."
+        }
+      }
+    ],
+
+    "resource": {
+      "eyebrow": "/ live pages",
+      "title": "Explore it live",
+      "intro": "Nothing above is a static mockup — the demo, the annotated flow board and the design system are all built in code, and the same system exists in Figma as variables, text styles and variant components. Open any of them full screen.",
+      "links": [
+        { "label": "Annotated flow board", "href": "ai-stylist/index.html", "icon": "ti-layout-board" },
+        { "label": "Animated demo", "href": "ai-stylist/demo.html", "icon": "ti-player-play" },
+        { "label": "Design system", "href": "ai-stylist/designsystem.html", "icon": "ti-color-swatch" },
+        { "label": "Figma file", "href": "https://www.figma.com/design/0IGYyGO4Yr2Kc0yqQ5Wh54/AI-Assisted-Flow?node-id=0-1&t=NBr7anMolZmNhfzv-1", "icon": "ti-brand-figma" }
+      ]
+    },
+
+    "next": { "label": "Microsoft · Azure AI", "href": "microsoft.html" }
+  },
+
   "thinkproject": {
-    "eyebrow": "Case 02 / Thinkproject · 2025",
+    "eyebrow": "Case 03 / Thinkproject · 2025",
     "title": "A Report Issue module that lets site engineers flag a fault without leaving the 3D model.",
     "role": "Product Designer",
     "year": "2025",
@@ -90,7 +164,7 @@ window.PROJECTS = {
   },
 
   "design-system-upload": {
-    "eyebrow": "Case 03 / Design System · 2026",
+    "eyebrow": "Case 04 / Design System · 2026",
     "title": "A single-file upload component — and the scalable design system underneath it, built on variables and 3-tier tokens.",
     "role": "Design System Specialist",
     "year": "2026",
@@ -176,7 +250,7 @@ window.PROJECTS = {
       "href": "https://www.figma.com/community/file/1650747534674926005/single-file-upload-component-scalable-design-system"
     },
 
-    "next": { "label": "Microsoft · Azure AI", "href": "microsoft.html" }
+    "next": { "label": "AI stylist · Luxury fashion", "href": "case.html?id=ai-stylist-checkout" }
   }
 
 };

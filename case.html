@@ -120,6 +120,12 @@
 
   .cover { margin: 40px 0 0; }
 
+  /* ---------- LIVE EMBEDS (interactive pages inside a case) ---------- */
+  .fig-embed .embed-media { position: relative; line-height: 0; background: #111; }
+  .fig-embed iframe { display: block; width: 100%; height: var(--embed-h, 880px); border: 0; }
+  .fig-embed figcaption a { color: #2B43FF; border-bottom: 1px solid rgba(43,67,255,0.45); transition: border-color .2s; }
+  .fig-embed figcaption a:hover { border-color: #2B43FF; }
+
   /* ---------- BRIEF ---------- */
   .brief { padding: 72px 0 8px; max-width: 760px; }
   .brief p { font-size: 19px; line-height: 1.65; color: #333; margin-bottom: 22px; }
@@ -189,6 +195,8 @@
   .resource-cta { display: inline-flex; align-items: center; gap: 12px; background: #0A0A0A; color: #FAFAF7; padding: 16px 26px; border-radius: 100px; font-size: 16px; font-weight: 500; transition: background .2s, transform .3s cubic-bezier(.2,.8,.2,1); }
   .resource-cta:hover { background: #2B43FF; transform: translateY(-2px); }
   .resource-cta .ti-brand-figma { font-size: 20px; }
+  .resource-cta > i:first-child { font-size: 20px; }
+  .resource-ctas { display: flex; flex-wrap: wrap; gap: 12px; }
   .resource-cta .arrow { font-size: 18px; transition: transform .3s; }
   .resource-cta:hover .arrow { transform: translate(3px, -3px); }
 
@@ -410,24 +418,35 @@
     const gridClass = imgs.length > 1 ? 'img-grid multi' : 'img-grid';
     const figs = imgs.map(figure).join('');
     const link = s.link ? `<button class="sec-link" type="button" data-qa="${i}"><i class="ti ti-clipboard-text"></i>${esc(s.link.text)}</button>` : '';
+    // Optional live embed: an interactive page shown inside the case study.
+    const embed = s.embed ? `<figure class="fig fig-embed">
+      <div class="embed-media"><iframe src="${esc(s.embed.src)}" title="${esc(s.embed.title || s.title)}" loading="lazy"${s.embed.height ? ` style="--embed-h:${esc(s.embed.height)}"` : ''}></iframe></div>
+      <figcaption>${esc(s.embed.caption || '')}${s.embed.caption ? ' · ' : ''}<a href="${esc(s.embed.src)}" target="_blank" rel="noopener">Open full screen ↗</a></figcaption>
+    </figure>` : '';
     return `<section class="case-section reveal">
       <div class="sec-num">/ 0${i + 1}</div>
       <h2>${esc(s.title)}</h2>
       ${s.intro ? `<p class="sec-intro">${esc(s.intro)}</p>` : ''}
       ${link}
-      <div class="${gridClass}">${figs}</div>
+      ${embed}
+      ${figs ? `<div class="${gridClass}">${figs}</div>` : ''}
     </section>`;
   }).join('');
 
+  // One CTA (legacy `href`/`label`) or several (`links: [{label, href, icon}]`).
+  const resourceLinks = p.resource
+    ? (p.resource.links || (p.resource.href ? [{ label: p.resource.label || 'Open the file', href: p.resource.href, icon: 'ti-brand-figma' }] : []))
+    : [];
   const resource = p.resource ? `<section class="case-section reveal">
       <div class="sec-num">${esc(p.resource.eyebrow || '/ live file')}</div>
       <h2>${esc(p.resource.title || 'Explore the file')}</h2>
       ${p.resource.intro ? `<p class="sec-intro">${esc(p.resource.intro)}</p>` : ''}
-      <a href="${esc(p.resource.href)}" target="_blank" rel="noopener" class="resource-cta">
-        <i class="ti ti-brand-figma"></i>
-        <span>${esc(p.resource.label || 'Open the file')}</span>
-        <i class="ti ti-arrow-up-right arrow"></i>
-      </a>
+      <div class="resource-ctas">${resourceLinks.map(l => `
+        <a href="${esc(l.href)}" target="_blank" rel="noopener" class="resource-cta">
+          ${l.icon ? `<i class="ti ${esc(l.icon)}"></i>` : ''}
+          <span>${esc(l.label || 'Open')}</span>
+          <i class="ti ti-arrow-up-right arrow"></i>
+        </a>`).join('')}</div>
     </section>` : '';
 
   const next = p.next ? `<div class="next-band"><a href="${esc(p.next.href)}" class="next-link">
