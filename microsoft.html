@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Microsoft Data &amp; AI · Case Study — Joy Nicolas</title>
+<meta name="description" content="Case study: Turning 40+ shattered Microsoft demo files into one live design system. Senior UX, Xoriant, 2023–2025." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #0A0A0A;
+    background: #FAFAF7;
+    line-height: 1.6;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: #2B43FF; color: #FFFFFF; }
+  .serif { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ---------- VERTICAL-LINE CURSOR ---------- */
+  .line-cursor {
+    position: fixed;
+    top: 0; left: 0;
+    width: 3px;
+    height: 16px;
+    background: #2B43FF;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate3d(0, 0, 0);
+    margin-left: -1.5px;
+    margin-top: -8px;
+    transition: height 200ms ease, opacity 200ms ease;
+    will-change: transform, height;
+    opacity: 0;
+  }
+  body.text-cursor { cursor: none; }
+  body.text-cursor .line-cursor.visible { opacity: 1; }
+  @media (hover: none), (pointer: coarse) {
+    .line-cursor { display: none !important; }
+    body.text-cursor { cursor: auto !important; }
+  }
+
+  /* ---------- NAV (exact match to index.html) ---------- */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(250, 250, 247, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(10, 10, 10, 0.06); }
+  .nav-inner { max-width: 1280px; margin: 0 auto; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; position: relative; }
+  .nav-logo { font-size: 15px; font-weight: 600; letter-spacing: -0.2px; display: flex; align-items: center; gap: 8px; }
+  .nav-logo .dot { width: 8px; height: 8px; background: #2B43FF; border-radius: 50%; animation: pulse 2s ease-in-out infinite; transition: transform .3s cubic-bezier(.2,.8,.2,1); }
+  .nav-logo:hover .dot { transform: scale(1.6) rotate(45deg); border-radius: 2px; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a { font-size: 14px; color: #555; transition: color 0.2s; position: relative; overflow: hidden; }
+  .nav-links a:not(.nav-cta) { display: inline-block; height: 1.4em; line-height: 1.4em; }
+  .nav-links a:not(.nav-cta) .nl-inner {
+    display: inline-block;
+    transition: transform .35s cubic-bezier(.2,.8,.2,1);
+  }
+  .nav-links a:not(.nav-cta) .nl-inner::before {
+    content: attr(data-text);
+    display: block;
+    color: #2B43FF;
+  }
+  .nav-links a:not(.nav-cta):hover .nl-inner { transform: translateY(-1.4em); }
+  .nav-cta { background: #0A0A0A; color: #FFFFFF !important; padding: 8px 16px; border-radius: 100px; font-size: 13px !important; font-weight: 500; transition: background 0.2s, transform .3s cubic-bezier(.2,.8,.2,1); will-change: transform; }
+  .nav-cta:hover { background: #2B43FF; }
+
+  /* Mobile hamburger */
+  .nav-toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .nav-toggle span {
+    width: 22px;
+    height: 2px;
+    background: #0A0A0A;
+    border-radius: 999px;
+    transition: all 0.3s ease;
+  }
+  .nav-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.active span:nth-child(2) { opacity: 0; }
+  .nav-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ---------- LAYOUT SHELL ---------- */
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+  section { padding: 80px 0; }
+  .section-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.15em; color: #2B43FF; margin-bottom: 16px; }
+  .section-title { font-size: clamp(32px, 4.5vw, 56px); font-weight: 500; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 16px; max-width: 880px; }
+  .section-sub { font-size: 18px; line-height: 1.55; color: #444; max-width: 720px; margin-bottom: 48px; }
+
+  /* ---------- INLINE SVG ARROW HELPERS ---------- */
+  .svg-arrow { display: inline-block; vertical-align: middle; flex-shrink: 0; }
+
+  /* ---------- HERO ---------- */
+  .case-hero { padding: 64px 0 56px; }
+  .breadcrumb { font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.15em; color: #888; margin-bottom: 24px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .breadcrumb a { color: #2B43FF; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb .sep { color: #BBB; }
+  .case-hero h1 {
+    font-size: clamp(40px, 6.5vw, 84px);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.035em;
+    margin-bottom: 40px;
+    max-width: 1100px;
+  }
+  .case-hero h1 .accent {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: #2B43FF;
+    letter-spacing: -0.02em;
+  }
+
+  /* META STRIP — fixed spacing on dividers */
+  .meta-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid rgba(10, 10, 10, 0.1);
+    border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+    margin: 40px 0;
+  }
+  .meta-cell {
+    padding: 20px 28px;
+    border-right: 1px solid rgba(10, 10, 10, 0.06);
+  }
+  .meta-cell:first-child { padding-left: 0; }
+  .meta-cell:last-child { border-right: none; padding-right: 0; }
+  .meta-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #888; margin-bottom: 6px; }
+  .meta-value { font-size: 15px; font-weight: 500; color: #0A0A0A; line-height: 1.4; }
+
+  .lead {
+    font-size: 21px;
+    line-height: 1.5;
+    color: #222;
+    max-width: 760px;
+    margin-bottom: 24px;
+  }
+  .nda-note { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #888; max-width: 760px; line-height: 1.6; }
+
+  /* ---------- THE SHIFT (Section 2) ---------- */
+  .shift-block {
+    background: #FFFFFF;
+    border: 1px solid rgba(10, 10, 10, 0.08);
+    border-radius: 24px;
+    padding: 48px;
+    margin-bottom: 32px;
+  }
+  .shift-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: #888; margin-bottom: 20px; }
+  .shift-pills {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .pill {
+    flex: 1;
+    min-width: 220px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+  .pill-before { background: #FCEBEB; color: #501313; }
+  .pill-after { background: #E1F5EE; color: #04342C; font-weight: 500; }
+  .pill-arrow { color: #2B43FF; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+
+  .stat-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+  .stat-cell {
+    padding: 32px 28px;
+    background: #FFFFFF;
+    border: 1px solid rgba(10, 10, 10, 0.08);
+    border-radius: 16px;
+  }
+  .stat-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 48px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .stat-num.green { color: #0F6E56; }
+  .stat-num.blue { color: #2B43FF; }
+  .stat-num.dark { color: #0A0A0A; }
+  .stat-label { font-size: 14px; color: #444; line-height: 1.5; }
+  .stat-source { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #888; margin-top: 10px; line-height: 1.5; }
+
+  /* ---------- REFRAME (Section 3) ---------- */
+  .reframe-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .reframe-col {
+    padding: 28px;
+    border-radius: 16px;
+  }
+  .reframe-col.red { background: #FCEBEB; }
+  .reframe-col.amber { background: #FAEEDA; }
+  .reframe-col-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .reframe-col.red .reframe-col-label { color: #A32D2D; }
+  .reframe-col.amber .reframe-col-label { color: #854F0B; }
+  .reframe-col ul { list-style: none; padding: 0; margin: 0; }
+  .reframe-col li {
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 6px 0;
+    padding-left: 20px;
+    position: relative;
+  }
+  .reframe-col li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    top: 6px;
+  }
+  .reframe-col.red li { color: #501313; }
+  .reframe-col.red li::before { color: #A32D2D; }
+  .reframe-col.amber li { color: #412402; }
+  .reframe-col.amber li::before { color: #854F0B; }
+
+  .reframe-arrow { display: flex; justify-content: center; margin: 16px 0; color: #2B43FF; }
+
+  .epiphany {
+    background: #EEEDFE;
+    border-left: 4px solid #2B43FF;
+    border-radius: 0 16px 16px 0;
+    padding: 32px 36px;
+  }
+  .epiphany-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #3C3489;
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+  .epiphany-main {
+    font-size: clamp(22px, 2.6vw, 30px);
+    font-weight: 500;
+    color: #26215C;
+    line-height: 1.3;
+    margin-bottom: 14px;
+    letter-spacing: -0.015em;
+  }
+  .epiphany-main em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: #2B43FF; }
+  .epiphany-sub { font-size: 15px; color: #3C3489; line-height: 1.65; }
+
+  /* ---------- DECISION 1 — FILE PANELS ---------- */
+  .file-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .file-panel {
+    background: #FFFFFF;
+    border: 1px solid rgba(10, 10, 10, 0.08);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .file-panel-header {
+    padding: 14px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(10, 10, 10, 0.06);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .file-panel-header.red { background: #FCEBEB; color: #501313; }
+  .file-panel-header.green { background: #E1F5EE; color: #04342C; }
+  .file-panel-body {
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.9;
+  }
+  .file-panel-body.muted { color: #5F5E5A; }
+  .file-panel-body .anno { color: #A32D2D; padding-left: 16px; display: block; font-size: 12px; }
+  .file-panel-body .neutral { color: #A32D2D; margin-top: 10px; }
+  .file-panel-body .heading-row { color: #0A0A0A; font-weight: 500; }
+  .file-panel-body .sub { color: #5F5E5A; padding-left: 16px; display: block; font-size: 12px; }
+  .file-panel-body .success { color: #0F6E56; margin-top: 10px; font-size: 12px; }
+
+  .micro-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px 0; }
+  .micro-stat { background: #FFFFFF; border: 1px solid rgba(10, 10, 10, 0.08); border-radius: 10px; padding: 14px 18px; }
+  .micro-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #888; margin-bottom: 6px; }
+  .micro-stat-value { font-size: 14px; line-height: 1.4; }
+  .micro-stat-value .neg { color: #A32D2D; }
+  .micro-stat-value .pos { color: #0F6E56; font-weight: 500; }
+
+  .why-block {
+    background: #EEEDFE;
+    border-left: 4px solid #2B43FF;
+    padding: 22px 28px;
+    border-radius: 0 12px 12px 0;
+    margin-top: 24px;
+  }
+  .why-block-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: #3C3489; font-weight: 500; margin-bottom: 10px; }
+  .why-block p { font-size: 15px; color: #26215C; line-height: 1.65; }
+  .why-block em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; }
+
+  /* ---------- DECISION 2 — WIREFRAMES + HI-FI ---------- */
+  .wire-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .wire-panel { display: flex; flex-direction: column; gap: 12px; }
+  .wire-tag-row { display: flex; align-items: center; gap: 10px; }
+  .wire-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+  .wire-tag.red { background: #FCEBEB; color: #501313; }
+  .wire-tag.green { background: #E1F5EE; color: #04342C; }
+  .wire-cap { font-size: 12px; color: #888; }
+
+  .wire-frame {
+    aspect-ratio: 4 / 3;
+    background: #FFFFFF;
+    border: 1px solid rgba(10, 10, 10, 0.1);
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+  }
+  .wire-top { display: flex; justify-content: space-between; padding: 4px 6px; border-bottom: 1px dashed #D3D1C7; margin-bottom: 12px; }
+  .wire-bar { background: #D3D1C7; height: 8px; border-radius: 2px; }
+  .wire-bar.dark { background: #B4B2A9; }
+  .wire-bar.w60 { width: 60px; }
+  .wire-bar.w30 { width: 30px; }
+  .wire-bar.w18 { width: 18px; }
+  .wire-row { display: flex; gap: 10px; flex: 1; min-height: 0; }
+  .wire-sidenav { width: 64px; background: #F1EFE8; border-radius: 4px; padding: 8px 6px; display: flex; flex-direction: column; gap: 6px; }
+  .wire-sidenav .item { background: #D3D1C7; height: 6px; border-radius: 1px; }
+  .wire-sidenav .item.active { background: #2B43FF; }
+  .wire-content { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .wire-grid-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; flex: 1; align-content: start; }
+  .wire-card {
+    background: #F1EFE8;
+    border: 1px solid #D3D1C7;
+    border-radius: 4px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-height: 0;
+  }
+  .wire-card .lbl { background: #B4B2A9; height: 18px; border-radius: 2px; }
+  .wire-card .line { background: #D3D1C7; height: 5px; border-radius: 1px; }
+  .wire-card .line.w70 { width: 70%; }
+  .wire-progress { display: flex; align-items: center; justify-content: space-between; padding: 2px; }
+  .wire-progress .dots { display: flex; gap: 6px; align-items: center; }
+  .wire-progress .dot { width: 8px; height: 8px; border-radius: 50%; background: #D3D1C7; }
+  .wire-progress .dot.active { background: #2B43FF; }
+  .wire-progress .dot.upcoming { background: #FFFFFF; border: 1.5px solid #2B43FF; }
+  .wire-progress .line { width: 16px; height: 1px; background: #D3D1C7; }
+  .wire-question { background: #EEEDFE; border-left: 2px solid #2B43FF; border-radius: 0 4px 4px 0; padding: 10px 12px; }
+  .wire-question .qbar { background: #AFA9EC; height: 5px; border-radius: 1px; width: 30%; margin-bottom: 5px; }
+  .wire-question .qline { background: #7F77DD; height: 6px; border-radius: 1px; margin-bottom: 3px; }
+  .wire-question .qline.w95 { width: 95%; }
+  .wire-question .qline.w75 { width: 75%; }
+  .wire-body { background: #F1EFE8; border: 1px solid #D3D1C7; border-radius: 4px; padding: 10px; flex: 1; display: flex; flex-direction: column; gap: 5px; }
+  .wire-body .h { background: #888780; height: 5px; border-radius: 1px; width: 28%; margin-bottom: 3px; }
+  .wire-body .l { background: #D3D1C7; height: 5px; border-radius: 1px; }
+  .wire-body .l.w85 { width: 85%; }
+  .wire-body .l.w60 { width: 60%; }
+  .wire-cta { display: flex; justify-content: flex-end; gap: 5px; }
+  .wire-cta .btn { width: 38px; height: 16px; border-radius: 2px; background: #D3D1C7; }
+  .wire-cta .btn.primary { width: 50px; background: #2B43FF; }
+
+  .wire-points {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .wire-points li { padding: 2px 0 2px 14px; position: relative; }
+  .wire-points li::before { content: '—'; position: absolute; left: 0; }
+  .wire-points.red li { color: #501313; }
+  .wire-points.green li { color: #04342C; }
+
+  .reframe-quote {
+    background: #EEEDFE;
+    border-left: 4px solid #2B43FF;
+    border-radius: 0 16px 16px 0;
+    padding: 28px 32px;
+    margin: 32px 0;
+  }
+  .reframe-quote p {
+    font-size: clamp(18px, 2vw, 22px);
+    color: #26215C;
+    line-height: 1.5;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  /* ---------- HI-FI MOCKUP ---------- */
+  .hifi-wrap {
+    background: #2C2C2A;
+    padding: 18px;
+    border-radius: 20px;
+    margin-top: 16px;
+  }
+  .hifi {
+    background: #FFFFFF;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+  }
+  .hifi-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 22px;
+    border-bottom: 1px solid #E5E4DF;
+  }
+  .hifi-top-left { display: flex; align-items: center; gap: 12px; }
+  .hifi-logo { width: 26px; height: 26px; border-radius: 6px; background: #2B43FF; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-size: 15px; }
+  .hifi-title { font-size: 14px; font-weight: 500; color: #2C2C2A; }
+  .hifi-top-right { display: flex; align-items: center; gap: 18px; }
+  .hifi-top-right i { font-size: 18px; color: #5F5E5A; }
+  .hifi-avatar { width: 30px; height: 30px; border-radius: 50%; background: #E1F5EE; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: #04342C; }
+
+  .hifi-body { display: flex; min-height: 480px; }
+  .hifi-sidenav {
+    width: 200px;
+    background: #F8F7F2;
+    border-right: 1px solid #E5E4DF;
+    padding: 20px 14px;
+  }
+  .hifi-sidenav-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #888780;
+    font-weight: 500;
+    margin-bottom: 12px;
+    padding-left: 4px;
+  }
+  .hifi-sidenav-item {
+    padding: 9px 12px;
+    font-size: 13px;
+    color: #5F5E5A;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 2px;
+  }
+  .hifi-sidenav-item i { font-size: 15px; }
+  .hifi-sidenav-item.active { background: #EEEDFE; color: #26215C; font-weight: 500; }
+
+  .hifi-main { flex: 1; padding: 28px 32px; background: #FFFFFF; }
+  .hifi-progress { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+  .hifi-progress-dots { display: flex; align-items: center; gap: 6px; }
+  .hifi-progress-dots .pd { width: 9px; height: 9px; border-radius: 50%; background: #2B43FF; }
+  .hifi-progress-dots .pd.upcoming { background: transparent; border: 1.5px solid #2B43FF; }
+  .hifi-progress-dots .pl { width: 18px; height: 1px; background: #D3D1C7; }
+  .hifi-progress-label { font-size: 12px; color: #888780; }
+
+  .hifi-question {
+    background: #F8F7F2;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 18px;
+  }
+  .hifi-question-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #888780;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .hifi-question-body { font-size: 15px; color: #2C2C2A; line-height: 1.55; }
+
+  .hifi-reasoning {
+    background: #EEEDFE;
+    border-left: 3px solid #2B43FF;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin-bottom: 22px;
+  }
+  .hifi-reasoning-label { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .hifi-reasoning-label i { font-size: 14px; color: #2B43FF; }
+  .hifi-reasoning-label span { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #3C3489; font-weight: 500; }
+  .hifi-reasoning-body { font-size: 14px; color: #26215C; line-height: 1.65; }
+
+  .hifi-products-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #888780;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  .hifi-products { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+  .hifi-product { border: 1px solid #E5E4DF; border-radius: 8px; overflow: hidden; }
+  .hifi-product-img { aspect-ratio: 3 / 4; display: flex; align-items: center; justify-content: center; }
+  .hifi-product-img.a { background: linear-gradient(135deg, #D3D1C7, #B4B2A9); }
+  .hifi-product-img.b { background: linear-gradient(135deg, #AFA9EC, #7F77DD); }
+  .hifi-product-img.c { background: linear-gradient(135deg, #F5C4B3, #F0997B); }
+  .hifi-product-img i { font-size: 34px; color: rgba(0,0,0,0.45); }
+  .hifi-product-img.b i { color: #26215C; }
+  .hifi-product-img.c i { color: #4A1B0C; }
+  .hifi-product-meta { padding: 8px 10px; }
+  .hifi-product-name { font-size: 13px; font-weight: 500; margin-bottom: 2px; color: #2C2C2A; }
+  .hifi-product-sub { font-size: 11px; color: #888780; }
+
+  .hifi-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 14px;
+    border-top: 1px solid #E5E4DF;
+  }
+  .hifi-bottom-note { font-size: 12px; color: #888780; display: flex; align-items: center; gap: 6px; }
+  .hifi-bottom-note i { font-size: 14px; }
+  .hifi-bottom-actions { display: flex; gap: 8px; }
+  .hifi-btn { padding: 8px 16px; border-radius: 6px; border: 1px solid #D3D1C7; background: #FFFFFF; font-size: 12px; cursor: pointer; color: #2C2C2A; font-family: inherit; }
+  .hifi-btn.primary { background: #2B43FF; color: #FFFFFF; border-color: #2B43FF; font-weight: 500; }
+
+  .explainer-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .explainer-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(10, 10, 10, 0.08);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .explainer-card .lbl { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #2B43FF; font-weight: 500; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .explainer-card p { font-size: 13px; color: #444; line-height: 1.5; }
+
+  /* ---------- OUTCOME ---------- */
+  .outcome-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .outcome-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(10, 10, 10, 0.08);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .outcome-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 56px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .outcome-num.green { color: #0F6E56; }
+  .outcome-num.blue { color: #2B43FF; }
+  .outcome-title { font-size: 15px; font-weight: 500; margin-bottom: 10px; line-height: 1.35; }
+  .outcome-sub { font-size: 13px; color: #555; line-height: 1.6; }
+  .outcome-card.quote { background: #EEEDFE; border-color: rgba(43, 67, 255, 0.15); }
+  .outcome-quote-label { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .outcome-quote-label svg { color: #2B43FF; flex-shrink: 0; }
+  .outcome-quote-label span { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #3C3489; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; }
+  .outcome-quote-text { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 22px; color: #26215C; line-height: 1.35; margin-bottom: 12px; }
+  .outcome-quote-sub { font-size: 12px; color: #3C3489; line-height: 1.55; }
+
+  .system-strip {
+    background: #FFFFFF;
+    border: 1px solid rgba(10, 10, 10, 0.08);
+    border-radius: 16px;
+    padding: 24px 28px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .system-strip-cell .num { font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 500; color: #0A0A0A; letter-spacing: -0.02em; line-height: 1; margin-bottom: 6px; }
+  .system-strip-cell .lbl { font-size: 12px; color: #555; line-height: 1.5; }
+
+  .lookback {
+    background: #FAEEDA;
+    border-left: 4px solid #2B43FF;
+    border-radius: 0 16px 16px 0;
+    padding: 24px 30px;
+  }
+  .lookback-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: #854F0B; font-weight: 500; margin-bottom: 10px; }
+  .lookback p { font-size: 16px; color: #412402; line-height: 1.65; font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; }
+
+  /* ---------- NEXT ---------- */
+  .next-section { padding: 80px 0 40px; border-top: 1px solid rgba(10, 10, 10, 0.1); }
+  .next-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 0;
+    transition: padding 0.3s ease;
+  }
+  .next-link:hover { padding-left: 12px; }
+  .next-link-left .lbl { font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.15em; color: #2B43FF; margin-bottom: 8px; }
+  .next-link-left h3 { font-size: clamp(24px, 3vw, 36px); font-weight: 500; letter-spacing: -0.02em; line-height: 1.2; }
+  .next-link .next-arrow { color: #2B43FF; transition: transform 0.3s ease; flex-shrink: 0; }
+  .next-link:hover .next-arrow { transform: translateX(8px); }
+
+  /* ---------- FOOTER ---------- */
+  footer { border-top: 1px solid rgba(10, 10, 10, 0.08); padding: 32px; max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #888; }
+  footer .accent { color: #2B43FF; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 900px) {
+    .nav-toggle { display: flex; }
+    .nav-links {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: rgba(250, 250, 247, 0.98);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(10, 10, 10, 0.06);
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 24px;
+      display: none;
+    }
+    .nav-links.active { display: flex; }
+    .nav-links a:not(.nav-cta) { display: inline-block; }
+
+    .meta-strip { grid-template-columns: repeat(2, 1fr); }
+    .meta-cell { border-right: none; border-bottom: 1px solid rgba(10, 10, 10, 0.06); padding: 18px 0; }
+    .meta-cell:nth-child(odd) { padding-right: 24px; border-right: 1px solid rgba(10, 10, 10, 0.06); }
+    .meta-cell:nth-child(even) { padding-left: 24px; }
+    .meta-cell:nth-child(3), .meta-cell:nth-child(4) { border-bottom: none; }
+    .reframe-grid { grid-template-columns: 1fr; }
+    .file-grid { grid-template-columns: 1fr; }
+    .micro-stats { grid-template-columns: 1fr; }
+    .wire-grid { grid-template-columns: 1fr; }
+    .explainer-row { grid-template-columns: repeat(2, 1fr); }
+    .outcome-grid { grid-template-columns: 1fr; }
+    .system-strip { grid-template-columns: repeat(2, 1fr); }
+    .stat-row-3 { grid-template-columns: 1fr; }
+    .shift-block { padding: 28px; }
+    .hifi-body { flex-direction: column; min-height: auto; }
+    .hifi-sidenav { width: 100%; }
+    .container { padding: 0 24px; }
+    section { padding: 64px 0; }
+  }
+  @media (max-width: 600px) {
+    .case-hero h1 { letter-spacing: -0.02em; }
+    .shift-pills { flex-direction: column; }
+    .pill-arrow { transform: rotate(90deg); }
+    .explainer-row { grid-template-columns: 1fr; }
+    .system-strip { grid-template-columns: 1fr; }
+    .hifi-products { grid-template-columns: 1fr 1fr; }
+    .hifi-bottom { flex-direction: column; gap: 12px; align-items: stretch; }
+    .hifi-bottom-actions { justify-content: flex-end; }
+  }
+</style>
+</head>
+<body class="text-cursor">
+<!-- PASSWORD GATE -->
+<div id="passGate" style="position:fixed;inset:0;z-index:99999;background:rgba(250,250,247,0.98);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;padding:24px;">
+  <div style="position:relative;max-width:520px;width:100%;background:#FFFFFF;border:1px solid rgba(10,10,10,0.08);border-radius:24px;padding:48px 40px;box-shadow:0 20px 60px rgba(10,10,10,0.08);">
+    <button id="passClose" type="button" aria-label="Close and return to all work" style="position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;border:1px solid rgba(10,10,10,0.1);background:#fff;color:#0A0A0A;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;line-height:1;transition:background .2s,color .2s,transform .35s cubic-bezier(.2,.8,.2,1);" onmouseover="this.style.background='#2B43FF';this.style.color='#fff';this.style.transform='rotate(90deg)'" onmouseout="this.style.background='#fff';this.style.color='#0A0A0A';this.style.transform='none'">✕</button>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;color:#2B43FF;margin-bottom:20px;padding-right:28px;">[ Before you read ]</div>
+    <h2 style="font-size:32px;font-weight:500;line-height:1.15;letter-spacing:-0.025em;margin-bottom:20px;">This isn't a <span style="font-family:'Instrument Serif',serif;font-style:italic;color:#2B43FF;">copy-paste</span> case study.</h2>
+    <p style="font-size:15px;line-height:1.65;color:#444;margin-bottom:14px;">It's a real project, with real insights, real trade-offs, and a real reframe that took me weeks to see.</p>
+    <p style="font-size:15px;line-height:1.65;color:#444;margin-bottom:28px;">If you're here to skim, this won't land. If you're serious about understanding how I think — you'll need the password.</p>
+    <form id="passForm" class="passForm" style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+      <input id="passInput" type="password" placeholder="Enter password" autocomplete="off" style="flex:1;padding:14px 16px;border:1px solid rgba(10,10,10,0.15);border-radius:10px;font-size:15px;font-family:inherit;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='#2B43FF'" onblur="this.style.borderColor='rgba(10,10,10,0.15)'" />
+      <button type="submit" style="padding:14px 22px;background:#0A0A0A;color:#FFFFFF;border:none;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;transition:background 0.2s;" onmouseover="this.style.background='#2B43FF'" onmouseout="this.style.background='#0A0A0A'">Unlock →</button>
+    </form>
+    <p id="passError" style="font-size:13px;color:#A32D2D;min-height:18px;margin-bottom:14px;"></p>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#888;line-height:1.6;">[ Call Joy · +91-96234 65096 ]</p>
+  </div>
+</div>
+<style> body.locked{overflow:hidden;cursor:auto!important;} body.locked .line-cursor{display:none!important;} #passGate, #passGate *{cursor:auto;} #passGate button{cursor:pointer;} #passGate input{cursor:text;} @media (max-width: 540px) {   .passForm { flex-direction: column; }   .passForm input, .passForm button { width: 100%; }   .passForm button { padding: 16px !important; } } </style>
+<div class="line-cursor" id="lineCursor"></div>
+
+<!-- NAV — exact match to index.html, with roll-up text + hamburger -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="dot"></span>
+      Joy Nicolas
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="nav-links" id="navMenu">
+      <a href="index.html#work">
+        <span class="nl-inner" data-text="Work">Work</span>
+      </a>
+      <a href="index.html#side">
+        <span class="nl-inner" data-text="Side projects">Side projects</span>
+      </a>
+      <a href="index.html#approach">
+        <span class="nl-inner" data-text="Approach">Approach</span>
+      </a>
+       <a href="index.html#testimonials" data-cursor="link">
+        <span class="nl-inner" data-text="What they say">What they say</span>
+      </a>
+      <a href="mailto:joy9887@gmail.com" class="nav-cta" data-magnetic="0.4">Get in touch</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="case-hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html">Work</a>
+      <span class="sep">/</span>
+      <span>Case 02 · Microsoft · Azure AI · 2023–2025</span>
+    </div>
+
+    <h1>
+      Turning 40+ shattered Microsoft demo files into one <span class="accent">live design system</span> BDMs actually wanted to use.
+    </h1>
+
+    <div class="meta-strip">
+      <div class="meta-cell">
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Senior UX Designer</div>
+      </div>
+      <div class="meta-cell">
+        <div class="meta-label">Team</div>
+        <div class="meta-value">3 designers, 2 devs</div>
+      </div>
+      <div class="meta-cell">
+        <div class="meta-label">Timeline</div>
+        <div class="meta-value">~6 months</div>
+      </div>
+      <div class="meta-cell">
+        <div class="meta-label">Tools</div>
+        <div class="meta-value">Figma, FigJam</div>
+      </div>
+    </div>
+
+    <p class="lead">
+      Microsoft Data &amp; AI DREAM Demos are clickable industry stories Microsoft sellers walk customers through. When I joined, files were chaos — and the demos showed it.
+    </p>
+    <p class="nda-note">
+      [ Note · Visuals on this page are representative recreations. Original Microsoft work is under NDA. ]
+    </p>
+  </div>
+</header>
+
+<!-- SECTION 2 — THE SHIFT -->
+<section>
+  <div class="container">
+    <div class="section-eyebrow">[ 01 / The shift ]</div>
+    <h2 class="section-title">What changed, in <span class="serif">one frame.</span></h2>
+
+    <div class="shift-block">
+      <div class="shift-label">[ Before → After ]</div>
+      <div class="shift-pills">
+        <div class="pill pill-before">Scattered Figma files &amp; inconsistent UI across 40+ demo screens</div>
+        <div class="pill-arrow">
+          <svg class="svg-arrow" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14"/>
+            <path d="m13 6 6 6-6 6"/>
+          </svg>
+        </div>
+        <div class="pill pill-after">Live atomic design system, one shared shell, predictable handoff</div>
+      </div>
+    </div>
+
+    <div class="stat-row-3">
+      <div class="stat-cell">
+        <div class="stat-num green">~60%</div>
+        <div class="stat-label">Drop in design-related support tickets</div>
+        <div class="stat-source">Dev team's internal support dashboard, 3 months before vs after rollout.</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num blue">~3×</div>
+        <div class="stat-label">Faster shipping for new DREAM demos</div>
+        <div class="stat-source">New demos reused 70+ components instead of redrawing from scratch.</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num dark">70+</div>
+        <div class="stat-label">Atomic components shipped</div>
+        <div class="stat-source">Across Foundations, Atoms, Molecules, Organisms, Templates, Pages.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3 — REFRAME -->
+<section>
+  <div class="container">
+    <div class="section-eyebrow">[ 02 / The reframe ]</div>
+    <h2 class="section-title">The chaos wasn't the problem. It was the <span class="serif">symptom.</span></h2>
+    <p class="section-sub">Two weeks in, I started seeing the same problem from two different angles. They turned out to be the same problem.</p>
+
+    <div class="reframe-grid">
+      <div class="reframe-col red">
+        <div class="reframe-col-label">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M2 9a2 2 0 0 1 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H20a2 2 0 0 1 2 2"/>
+            <path d="M2 13v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4"/>
+            <path d="m4 4 16 16"/>
+          </svg>
+          What I saw in Figma
+        </div>
+        <ul>
+          <li>One Figma file per demo, no shared library</li>
+          <li>No naming convention — "final," "final v2," "copy of"</li>
+          <li>Every new demo started by copying assets from the last one, then modifying</li>
+          <li>No design system, no tokens, no source of truth</li>
+        </ul>
+      </div>
+      <div class="reframe-col amber">
+        <div class="reframe-col-label">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            <path d="M12 8v4"/>
+            <path d="M12 15h.01"/>
+          </svg>
+          What I saw in support tickets
+        </div>
+        <ul>
+          <li>Most tickets weren't bug reports</li>
+          <li>They were "<em>how do I do this?</em>" questions</li>
+          <li>BDMs couldn't navigate the demos confidently</li>
+          <li>The flow itself was unteachable</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="reframe-arrow">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 5v14"/>
+        <path d="m6 13 6 6 6-6"/>
+      </svg>
+    </div>
+
+    <div class="epiphany">
+      <div class="epiphany-label">[ The connection nobody had named ]</div>
+      <p class="epiphany-main">
+        The messy files weren't a designer problem. They were producing a <em>customer</em> problem.
+      </p>
+      <p class="epiphany-sub">
+        Every demo was a one-off. So BDMs had to relearn every demo. So they kept asking the team how to navigate them. So the support tickets kept coming. The chaos in Figma wasn't slowing the design team down — it was slowing the sales motion down.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4 — DECISION 1 -->
+<section>
+  <div class="container">
+    <div class="section-eyebrow">[ 03 / Decision 01 ]</div>
+    <h2 class="section-title">From one Figma per demo to one <span class="serif">system</span> for all demos.</h2>
+    <p class="section-sub">I restructured the file architecture around atomic design. Every component lives once, in one place. Updates propagate everywhere.</p>
+
+    <div class="file-grid">
+      <div class="file-panel">
+        <div class="file-panel-header red">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M2 9a2 2 0 0 1 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H20a2 2 0 0 1 2 2"/>
+            <path d="M2 13v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4"/>
+            <path d="m4 4 16 16"/>
+          </svg>
+          Before · one Figma per demo
+        </div>
+        <div class="file-panel-body muted">
+          <div>📄 Demo_AzureOpenAI.fig</div>
+          <div>📄 Demo_AzureOpenAI_v2.fig</div>
+          <div>📄 Demo_AzureOpenAI_final.fig</div>
+          <div>📄 Demo_AzureOpenAI_final_v3.fig</div>
+          <div>📄 copy_of_Demo_OpenAI.fig</div>
+          <div>📄 Demo_Vision.fig</div>
+          <div>📄 Demo_Vision_old.fig</div>
+          <div>📄 Demo_Search.fig</div>
+          <div>📄 Demo_Speech_DRAFT.fig</div>
+          <span class="anno">↳ buttons replicated across files</span>
+          <span class="anno">↳ cards replicated across files</span>
+          <span class="anno">↳ nav rebuilt every time</span>
+          <div class="neutral">📁 (no shared library)</div>
+        </div>
+      </div>
+      <div class="file-panel">
+        <div class="file-panel-header green">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 7h14M5 12h14M5 17h14"/>
+          </svg>
+          After · one system, one file
+        </div>
+        <div class="file-panel-body">
+          <div class="heading-row">📁 01 · Foundations</div>
+          <span class="sub">Colors · Type · Grid · Tokens</span>
+          <div class="heading-row">📁 02 · Atoms</div>
+          <span class="sub">Buttons · Inputs · Icons · Labels</span>
+          <div class="heading-row">📁 03 · Molecules</div>
+          <span class="sub">Cards · Nav items · Search · Tabs</span>
+          <div class="heading-row">📁 04 · Organisms</div>
+          <span class="sub">Top nav · Left nav · Hero</span>
+          <div class="heading-row">📁 05 · Templates</div>
+          <span class="sub">Demo shell · Live demo layout</span>
+          <div class="heading-row">📁 06 · Pages</div>
+          <span class="sub">Demo screens (instances only)</span>
+          <div class="success">🔗 1 library · all demos consume it</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="micro-stats">
+      <div class="micro-stat">
+        <div class="micro-stat-label">File model</div>
+        <div class="micro-stat-value"><span class="neg">one per demo</span> → <span class="pos">one library, many demos</span></div>
+      </div>
+      <div class="micro-stat">
+        <div class="micro-stat-label">Components</div>
+        <div class="micro-stat-value"><span class="neg">replicated</span> → <span class="pos">reused as instances</span></div>
+      </div>
+      <div class="micro-stat">
+        <div class="micro-stat-label">Source of truth</div>
+        <div class="micro-stat-value"><span class="neg">none</span> → <span class="pos">shared library</span></div>
+      </div>
+    </div>
+
+    <div class="why-block">
+      <div class="why-block-label">[ Why atomic, specifically ]</div>
+      <p>
+        I picked atomic methodology because the demos shared most of their UI — same nav, same cards, same demo shell. Atomic lets the shared parts live once, while still letting each demo's content sit on top. A flat component library would have given us reuse, but not the layered <em>composition</em> the demos actually needed.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5 — DECISION 2 -->
+<section>
+  <div class="container">
+    <div class="section-eyebrow">[ 04 / Decision 02 ]</div>
+    <h2 class="section-title">From a feature grid to a <span class="serif">story moment.</span></h2>
+    <p class="section-sub">The old live demo dumped all AI capabilities on one screen with technical labels. The new one walks through a real customer question, with each capability appearing at the moment in the story where it solves a problem.</p>
+
+    <div class="wire-grid">
+      <div class="wire-panel">
+        <div class="wire-tag-row">
+          <span class="wire-tag red">Before</span>
+          <span class="wire-cap">Feature-first, tech labels</span>
+        </div>
+        <div class="wire-frame">
+          <div class="wire-top">
+            <div class="wire-bar w60"></div>
+            <div style="display: flex; gap: 4px;">
+              <div class="wire-bar w30"></div>
+              <div class="wire-bar w18"></div>
+            </div>
+          </div>
+          <div class="wire-row">
+            <div class="wire-sidenav">
+              <div class="item dark" style="background: #B4B2A9;"></div>
+              <div class="item"></div>
+              <div class="item"></div>
+              <div class="item"></div>
+            </div>
+            <div class="wire-grid-cards">
+              <div class="wire-card"><div class="lbl"></div><div class="line"></div><div class="line w70"></div></div>
+              <div class="wire-card"><div class="lbl"></div><div class="line"></div><div class="line w70"></div></div>
+              <div class="wire-card"><div class="lbl"></div><div class="line"></div><div class="line w70"></div></div>
+              <div class="wire-card"><div class="lbl"></div><div class="line"></div></div>
+              <div class="wire-card"><div class="lbl"></div><div class="line"></div></div>
+              <div class="wire-card"><div class="lbl"></div><div class="line"></div></div>
+            </div>
+          </div>
+        </div>
+        <ul class="wire-points red">
+          <li>All AI capabilities shown at once</li>
+          <li>Technical labels (model names, APIs)</li>
+          <li>BDM has to narrate the connection between cards</li>
+        </ul>
+      </div>
+
+      <div class="wire-panel">
+        <div class="wire-tag-row">
+          <span class="wire-tag green">After</span>
+          <span class="wire-cap">Story-first, customer question</span>
+        </div>
+        <div class="wire-frame">
+          <div class="wire-top">
+            <div class="wire-bar w60 dark"></div>
+            <div style="display: flex; gap: 4px;">
+              <div class="wire-bar w30"></div>
+              <div class="wire-bar w18"></div>
+            </div>
+          </div>
+          <div class="wire-row">
+            <div class="wire-sidenav">
+              <div class="item"></div>
+              <div class="item active"></div>
+              <div class="item"></div>
+              <div class="item"></div>
+            </div>
+            <div class="wire-content">
+              <div class="wire-progress">
+                <div class="dots">
+                  <div class="dot active"></div>
+                  <div class="dot"></div>
+                  <div class="dot"></div>
+                  <div class="dot upcoming"></div>
+                </div>
+                <div class="wire-bar w30"></div>
+              </div>
+              <div class="wire-question">
+                <div class="qbar"></div>
+                <div class="qline w95"></div>
+                <div class="qline w75"></div>
+              </div>
+              <div class="wire-body">
+                <div class="h"></div>
+                <div class="l"></div>
+                <div class="l w85"></div>
+                <div class="l w60"></div>
+              </div>
+              <div class="wire-cta">
+                <div class="btn"></div>
+                <div class="btn primary"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ul class="wire-points green">
+          <li>One AI capability per story step</li>
+          <li>Plain language, customer question on top</li>
+          <li>The flow narrates itself, BDM stays in story mode</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="reframe-quote">
+      <p>"A live demo is not a feature list. It's a narrative the BDM performs in front of a customer. The screen has to do the storytelling, so the BDM can focus on the audience."</p>
+    </div>
+
+    <div class="hifi-wrap">
+      <div class="hifi">
+        <div class="hifi-top">
+          <div class="hifi-top-left">
+            <div class="hifi-logo">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1M5.6 18.4l2.1-2.1m8.6-8.6 2.1-2.1"/>
+              </svg>
+            </div>
+            <div class="hifi-title">Retail AI Demo · Style Assistant</div>
+          </div>
+          <div class="hifi-top-right">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#5F5E5A" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.3-4.3"/>
+            </svg>
+            <div class="hifi-avatar">JN</div>
+          </div>
+        </div>
+        <div class="hifi-body">
+          <div class="hifi-sidenav">
+            <div class="hifi-sidenav-label">Demo</div>
+            <div class="hifi-sidenav-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+              Overview
+            </div>
+            <div class="hifi-sidenav-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M12 8v4M8 16l3-4M16 16l-3-4"/></svg>
+              Architecture
+            </div>
+            <div class="hifi-sidenav-item active">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>
+              Live demo
+            </div>
+            <div class="hifi-sidenav-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              Resources
+            </div>
+          </div>
+          <div class="hifi-main">
+            <div class="hifi-progress">
+              <div class="hifi-progress-dots">
+                <span class="pd"></span>
+                <span class="pl"></span>
+                <span class="pd"></span>
+                <span class="pl"></span>
+                <span class="pd"></span>
+                <span class="pl"></span>
+                <span class="pd upcoming"></span>
+              </div>
+              <div class="hifi-progress-label">Step 3 of 4 · Recommendation</div>
+            </div>
+
+            <div class="hifi-question">
+              <div class="hifi-question-label">Customer question</div>
+              <div class="hifi-question-body">"I have a friend's wedding in London in August. What outfit would you suggest?"</div>
+            </div>
+
+            <div class="hifi-reasoning">
+              <div class="hifi-reasoning-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#2B43FF" aria-hidden="true"><path d="M9.5 3 11 8l5 1.5L11 11l-1.5 5L8 11l-5-1.5L8 8z"/><path d="M19 3v4M21 5h-4M17 17v4M19 19h-4"/></svg>
+                <span>AI reasoning</span>
+              </div>
+              <div class="hifi-reasoning-body">
+                London average in August: 17°C, light rain likely. A wedding is semi-formal. Suggesting layered outfits with a structured jacket, neutral tones, weather-resilient fabrics.
+              </div>
+            </div>
+
+            <div class="hifi-products-label">Suggested looks</div>
+            <div class="hifi-products">
+              <div class="hifi-product">
+                <div class="hifi-product-img a">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:rgba(0,0,0,0.45)" aria-hidden="true"><path d="M16 4h-3a1 1 0 0 0-1 1v0a1 1 0 0 1-2 0v0a1 1 0 0 0-1-1H6L3 7l3 3v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10l3-3z"/></svg>
+                </div>
+                <div class="hifi-product-meta">
+                  <div class="hifi-product-name">Tailored blazer</div>
+                  <div class="hifi-product-sub">Stone · UK 10</div>
+                </div>
+              </div>
+              <div class="hifi-product">
+                <div class="hifi-product-img b">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:#26215C" aria-hidden="true"><path d="M16 4h-3a1 1 0 0 0-1 1v0a1 1 0 0 1-2 0v0a1 1 0 0 0-1-1H6L3 7l3 3v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10l3-3z"/></svg>
+                </div>
+                <div class="hifi-product-meta">
+                  <div class="hifi-product-name">Midi dress</div>
+                  <div class="hifi-product-sub">Dusk · UK 10</div>
+                </div>
+              </div>
+              <div class="hifi-product">
+                <div class="hifi-product-img c">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:#4A1B0C" aria-hidden="true"><path d="M3 12a4 4 0 0 1 4-4h2c1.5 0 2.5 1 3 2l1 2c.5 1 1.5 2 3 2h3a2 2 0 0 1 2 2v2H3z"/></svg>
+                </div>
+                <div class="hifi-product-meta">
+                  <div class="hifi-product-name">Block heels</div>
+                  <div class="hifi-product-sub">Tan · UK 6</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="hifi-bottom">
+              <div class="hifi-bottom-note">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                Powered by conversational AI · weather · product catalog
+              </div>
+              <div class="hifi-bottom-actions">
+                <button class="hifi-btn">Back</button>
+                <button class="hifi-btn primary">View summary</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="explainer-row">
+      <div class="explainer-card">
+        <div class="lbl">Top nav</div>
+        <p>Same across every DREAM demo. BDMs learn it once.</p>
+      </div>
+      <div class="explainer-card">
+        <div class="lbl">Left nav</div>
+        <p>Same four sections, same labels, same order.</p>
+      </div>
+      <div class="explainer-card">
+        <div class="lbl">Step indicator</div>
+        <p>Shows the BDM and customer where they are in the story.</p>
+      </div>
+      <div class="explainer-card">
+        <div class="lbl">AI reasoning</div>
+        <p>Makes the AI's logic visible, so the BDM can narrate it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6 — OUTCOME -->
+<section>
+  <div class="container">
+    <div class="section-eyebrow">[ 05 / Outcome ]</div>
+    <h2 class="section-title">What changed once the system <span class="serif">shipped.</span></h2>
+
+    <div class="outcome-grid">
+      <div class="outcome-card">
+        <div class="outcome-num green">~60%</div>
+        <div class="outcome-title">Drop in design-related support tickets</div>
+        <div class="outcome-sub">Tracked on the dev team's internal support dashboard. Compared 3 months before vs 3 months after the system rollout.</div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-num blue">~3×</div>
+        <div class="outcome-title">Faster shipping for new DREAM demos</div>
+        <div class="outcome-sub">New demos built on the system reused 70+ components instead of redrawing from scratch. Measured against pre-system delivery cycles.</div>
+      </div>
+      <div class="outcome-card quote">
+        <div class="outcome-quote-label">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2-2-2H4c-1.25 0-2 .75-2 2v2c0 1.25.75 2 2 2h2c.75 0 1 .25 1 1v.75C7 12 4 13 3 13zM15 21c3 0 7-1 7-8V5c0-1.25-.757-2-2-2h-4c-1.25 0-2 .75-2 2v2c0 1.25.75 2 2 2h2c.75 0 1 .25 1 1v.75c0 1.25-3 2.25-4 2.25z"/>
+          </svg>
+          <span>Stakeholder reception</span>
+        </div>
+        <div class="outcome-quote-text">"The new demos are easier to walk customers through."</div>
+        <div class="outcome-quote-sub">Consistent feedback from BDMs and Microsoft stakeholders during demo reviews after the rollout.</div>
+      </div>
+    </div>
+
+    <div class="system-strip">
+      <div class="system-strip-cell">
+        <div class="num">70+</div>
+        <div class="lbl">Atomic components shipped</div>
+      </div>
+      <div class="system-strip-cell">
+        <div class="num">40+</div>
+        <div class="lbl">Demo screens restructured</div>
+      </div>
+      <div class="system-strip-cell">
+        <div class="num">1</div>
+        <div class="lbl">Shared demo shell (nav, header, footer)</div>
+      </div>
+      <div class="system-strip-cell">
+        <div class="num">WCAG 2.1</div>
+        <div class="lbl">Accessibility baseline applied</div>
+      </div>
+    </div>
+
+    <div class="lookback">
+      <div class="lookback-label">[ Looking back ]</div>
+      <p>
+        I'd have run a structured BDM interview round before building the system, instead of validating with stakeholders after. The system would have been the same, but I'd have had user quotes anchoring every component decision — and that would have shortened the internal sell.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT -->
+<section class="next-section">
+  <div class="container">
+    <a href="case.html?id=thinkproject" class="next-link">
+      <div class="next-link-left">
+        <div class="lbl">[ Next case study → ]</div>
+        <h3>A Report Issue module for Thinkproject's VDC platform</h3>
+      </div>
+      <svg class="next-arrow" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h14"/>
+        <path d="m13 6 6 6-6 6"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Joy James Nicolas <span class="accent">◆</span> Pune, India</span>
+</footer>
+
+<script>
+ // Password gate
+(function () {
+  //const KEY = 'msPassUnlocked_v1';
+  const KEY = 'caseStudyUnlocked_v1';
+  const gate = document.getElementById('passGate');
+  const form = document.getElementById('passForm');
+  const input = document.getElementById('passInput');
+  const errEl = document.getElementById('passError');
+  const closeBtn = document.getElementById('passClose');
+  if (!gate || !form) return;
+
+  if (sessionStorage.getItem(KEY) === '1') {
+    gate.remove();
+  } else {
+    document.body.classList.add('locked');
+    setTimeout(function () { input.focus(); }, 50);
+    var leave = function () { window.location.href = 'index.html#work'; };
+    if (closeBtn) closeBtn.addEventListener('click', leave);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && document.body.classList.contains('locked')) leave();
+    });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (input.value.trim().toLowerCase() === 'joy9887') {
+        sessionStorage.setItem(KEY, '1');
+        gate.style.transition = 'opacity 0.4s ease';
+        gate.style.opacity = '0';
+        setTimeout(function () {
+          gate.remove();
+          document.body.classList.remove('locked');
+        }, 420);
+      } else {
+        errEl.textContent = 'Not quite. Try again.';
+        input.value = '';
+        input.style.borderColor = '#A32D2D';
+        setTimeout(function () { input.style.borderColor = 'rgba(10,10,10,0.15)'; }, 1500);
+      }
+    });
+  }
+})();
+  // Vertical-line cursor
+  (function () {
+    const cursor = document.getElementById('lineCursor');
+    if (!cursor) return;
+    const TEXT_SELECTORS = 'h1, h2, h3, h4, h5, h6, p, a, span, li, button, input, textarea, label, em, strong';
+    let visible = false;
+
+    function setHeight(el) {
+      if (!el) { cursor.style.height = '16px'; return; }
+      const tag = el.tagName;
+      if (tag === 'H1') cursor.style.height = '88px';
+      else if (tag === 'H2') cursor.style.height = '56px';
+      else if (tag === 'H3') cursor.style.height = '40px';
+      else if (tag === 'BUTTON' || tag === 'A') cursor.style.height = '32px';
+      else cursor.style.height = '22px';
+    }
+
+    document.addEventListener('mousemove', function (e) {
+      cursor.style.transform = 'translate3d(' + e.clientX + 'px, ' + e.clientY + 'px, 0)';
+      if (!visible) { cursor.classList.add('visible'); visible = true; }
+    });
+    document.addEventListener('mouseover', function (e) {
+      const target = e.target.closest(TEXT_SELECTORS);
+      setHeight(target);
+    });
+    document.addEventListener('mouseleave', function () {
+      cursor.classList.remove('visible'); visible = false;
+    });
+  })();
+
+  // Mobile nav toggle
+  (function () {
+    const toggle = document.getElementById('navToggle');
+    const menu = document.getElementById('navMenu');
+    if (!toggle || !menu) return;
+    toggle.addEventListener('click', function () {
+      toggle.classList.toggle('active');
+      menu.classList.toggle('active');
+      toggle.setAttribute('aria-expanded', toggle.classList.contains('active'));
+    });
+    menu.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        toggle.classList.remove('active');
+        menu.classList.remove('active');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  })();
+
+  // Magnetic hover effect (matches index.html)
+  (function () {
+    const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (isTouch || prefersReduced) return;
+
+    document.querySelectorAll('[data-magnetic]').forEach(function (el) {
+      const strength = parseFloat(el.dataset.magnetic) || 0.3;
+      el.addEventListener('mousemove', function (e) {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - (rect.left + rect.width / 2);
+        const y = e.clientY - (rect.top + rect.height / 2);
+        el.style.transform = 'translate(' + (x * strength) + 'px, ' + (y * strength) + 'px)';
+      });
+      el.addEventListener('mouseleave', function () {
+        el.style.transform = '';
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
